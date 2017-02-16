@@ -1,0 +1,15 @@
+.DS_Store
+.idea
+*.bak
+*.orig
+*.swp
+*.log
+.nfs*
+.travis/encrypt/*
+.travis/*.tar
+.travis/*.tar.gz
+.travis/*.enc
+composer.phar
+composer.lock
+vendor/
+coverage/

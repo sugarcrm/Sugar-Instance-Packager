@@ -1,0 +1,24 @@
+{
+  "private": true,
+  "name": "Support-Helpers-Packager",
+  "description": "Helpers for archiving an instance",
+  "version": "1.0.0",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "phpunit || true",
+    "coverage": "phpunit --coverage-html=coverage || true",
+    "doc": "phpdoc -d ./src -t ./doc/ || true",
+    "quality": "phpcs --standard=./ruleset.xml src/ || true",
+    "all": "npm run coverage && npm run doc && npm run quality"
+  },
+  "repository": {
+    "type": "vcs",
+    "url": "https://github.com/sugarcrm/Support-Helpers-Packager.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sugarcrm/Support-Helpers-Packager/issues"
+  },
+  "homepage": "https://github.com/sugarcrm/Support-Helpers-Packager"
+}
