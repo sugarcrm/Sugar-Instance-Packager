@@ -35,9 +35,6 @@ before_script:
 - cd sugar
 - sleep 10
 - php cliSilentInstall.php
-- php $TRAVIS_BUILD_DIR/.travis/cliModuleInstall.php -i $TRAVIS_BUILD_DIR/sugar
-  -z $TRAVIS_BUILD_DIR/builds/package.zip
-- if test -f "composer.json"; then composer install; fi
 - sudo chmod -R 777 .
 - cd ..
 script: vendor/bin/phpunit --coverage-clover build/logs/clover.xml
