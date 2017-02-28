@@ -10,19 +10,16 @@ To execute a backup, you can use `execute.php`. The setup is as follows
 cd <Support-Helpers-Packer Root>
 php execute.php --source="/path/to/sugar" --destination="backups" --name="packageName"
 ```
-|Option|Descrition|
-|-|-|
-|source|blah|
 
-## Verify
-
-Run coverage, generate documentation, verify code quality:
-
-`$ npm run all`
-
+###Command Options
+| Option  | Description |
+| ------------- | ------------- |
+| source  | Content Cell  |
+| destination  | Content Cell  |
+| name  | Optional. If left empty, backups generated will be created as `{timestamp}-{type}.zip`  |
+| type  | Optional. Determines the backup strategy. Valid options are `MySQL` and `OnDemand`. If left empty, backups are generated using the `OnDemand` methodology. `OnDemand` creates a `{name}-files.zip`, `{name}-db.zip`, and `{name}-triggers.zip` file that separates databse data rows from views and triggers. `MySQL` creates a `{name}-files.zip` and `{name}-db.zip`.|
 
 ## Testing
 
 Requires PHPUnit.
 `$ vendor/bin/phpunit --group support --verbose`
-
