@@ -8,6 +8,20 @@ abstract class Packager
     protected $archivePath;
     protected $archiveName;
     protected $config;
+    protected $log = array();
+
+    /**
+     * Captures an events message
+     * @param $message
+     */
+    function addLog($message)
+    {
+        if (php_sapi_name() === 'cli') {
+            echo $message . "\n";
+        }
+
+        $this->log[] = $message;
+    }
 
     /**
      * generic get function
@@ -53,10 +67,6 @@ abstract class Packager
         }
 
         $this->archiveName = $archiveName;
-
-//        $this->archiveDestinationFiles = $this->archivePath . '/' . $this->archiveName . '-files.zip';
-//        $this->archiveDestinationTriggers = $this->archivePath . '/' . $this->archiveName . '-triggers.zip';
-//        $this->archiveDestinationData = $this->archivePath . '/' . $this->archiveName . '-db.zip';
 
         $this->loadConfig();
 

@@ -10,6 +10,7 @@ abstract class Database
     protected $archiveName = '';
 
     protected $connection = null;
+    protected $log = array();
 
     /**
      * Database constructor.
@@ -61,6 +62,19 @@ abstract class Database
                 $this->dbConfigOptions['ssl_options']['ssl_cipher'] = isset($this->dbConfigOptions['ssl_options']['ssl_cipher']) ? $this->dbConfigOptions['ssl_options']['ssl_cipher'] : null;
             }
         }
+    }
+
+    /**
+     * Captures an events message
+     * @param $message
+     */
+    function addLog($message)
+    {
+        if (php_sapi_name() === 'cli') {
+            echo $message . "\n";
+        }
+
+        $this->log[] = $message;
     }
 
     /**

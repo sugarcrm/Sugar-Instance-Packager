@@ -13,6 +13,11 @@ class Packager extends \Sugarcrm\Support\Helpers\Packager\Instance\MySQL\Package
     public function __construct($sugarPath, $archivePath, $archiveName = '')
     {
         parent::__construct($sugarPath, $archivePath, $archiveName);
+
+        $targetTriggers = $this->archivePath . '/' . $this->archiveName . '-triggers.zip';
+        if (is_file($targetTriggers)) {
+            throw new \Exception("'{$targetTriggers}' already exists");
+        }
     }
 
     /**

@@ -13,6 +13,16 @@ class Packager extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Pa
     public function __construct($sugarPath, $archivePath, $archiveName = '')
     {
         parent::__construct($sugarPath, $archivePath, $archiveName);
+
+        $targetDB = $this->archivePath . '/' . $this->archiveName . '-db.zip';
+        if (is_file($targetDB)) {
+            throw new \Exception("'{$targetDB}' already exists");
+        }
+
+        $targetFiles = $this->archivePath . '/' . $this->archiveName . '-files.zip';
+        if (is_file($targetFiles)) {
+            throw new \Exception("'{$targetFiles}' already exists");
+        }
     }
 
     /**

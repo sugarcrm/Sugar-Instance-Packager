@@ -133,6 +133,8 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
      */
     function pack()
     {
+        $this->addLog('Packing database...');
+
         $this->package = array(
             'db' => array(
                 'mysqldump_cmd' => $this->getDBCommand(),
@@ -152,7 +154,8 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
     {
         foreach ($this->package as $package) {
 
-            echo $package['mysqldump_cmd'] . "\n";
+            $this->addLog($package['mysqldump_cmd']);
+
             $stdout = popen($package['mysqldump_cmd'], "r");
             $output = new \ZipStreamer\Output\File($package['path']);
             $zip = new \ZipStreamer\ZipStreamer($output);

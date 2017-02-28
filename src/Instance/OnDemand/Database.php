@@ -31,7 +31,7 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\MySQL\Databas
             foreach ($views as $v) {
                 $skip_views = sprintf("%s--ignore-table=%s ",
                     $skip_views,
-                    escapeshellarg(sprintf("%s.%s", $this->dbconfig['db_name'], $v))
+                    escapeshellarg(sprintf("%s.%s", $this->dbConfig['db_name'], $v))
                 );
             }
             $skip_views = rtrim($skip_views);

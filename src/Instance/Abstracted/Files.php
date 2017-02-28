@@ -6,6 +6,7 @@ abstract class Files
 {
     protected $source;
     protected $destination;
+    protected $log = array();
 
     /**
      * Files constructor.
@@ -34,6 +35,8 @@ abstract class Files
      */
     function pack()
     {
+        $this->addLog('Packing files...');
+
         $bytestotal = 0;
         $zip = new \ZipArchive();
         $zip->open($this->destination, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
@@ -51,6 +54,7 @@ abstract class Files
             if ($fileinfo->isDir()) {
                 $zip->addEmptyDir($subPathName);
             } else {
+                $this->addLog('Adding ' . $fileinfo->getPathname());
                 $zip->addFile($fileinfo->getPathname(), $subPathName);
                 $bytestotal += $fileinfo->getSize();
             }
@@ -61,7 +65,21 @@ abstract class Files
             json_encode(array('uncompressed_size' => $bytestotal))
         );
 
+        $this->addLog('Closing zip...');
         $zip->close();
+    }
+
+    /**
+     * Captures an events message
+     * @param $message
+     */
+    function addLog($message)
+    {
+        if (php_sapi_name() === 'cli') {
+            echo $message . "\n";
+        }
+
+        $this->log[] = $message;
     }
 
     /**
