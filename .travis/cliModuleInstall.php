@@ -204,12 +204,7 @@ if (($opts['zip_file'] && $opts['uninstall_module']) || (!$opts['zip_file'] && !
     usage();
 }
 
-// This must be called in order for the below 'require' directives to work in
-// a Shadow environment.
-//$shadow_root = getenv('SHADOW_ROOT');
 $document_root = getenv('DOCUMENT_ROOT');
-//chdir($shadow_root);
-//shadow($shadow_root, $document_root, array('cache', 'upload', 'config.php', 'config_override.php'));
 
 if (!@chdir($opts['instance_path'])) {
     output_error("Failed to chdir to ${opts['instance_path']}.");

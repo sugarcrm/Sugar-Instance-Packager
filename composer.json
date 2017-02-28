@@ -25,12 +25,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Sugarcrm\\Support\\Helpers\\Sugar\\": "src"
+            "Sugarcrm\\Support\\Helpers\\Packager\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Sugarcrm\\Support\\Helpers\\Tests": "tests"
+            "Sugarcrm\\Support\\Helpers\\Packager\\Tests\\": "tests"
         }
     },
     "minimum-stability": "stable",
