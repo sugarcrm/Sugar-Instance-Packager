@@ -185,7 +185,8 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
      */
     function getDBCommand($append = '')
     {
-        $command = "set @@global.show_compatibility_56=ON; set -o pipefail; mysqldump";
+        //set @@global.show_compatibility_56=ON; 
+        $command = "mysqldump";
 
         $command .= " --set-gtid-purged=OFF --max_allowed_packet=2048M -e -Q --opt";
 

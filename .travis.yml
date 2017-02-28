@@ -35,7 +35,7 @@ before_script:
 - php cliSilentInstall.php
 - sudo chmod -R 777 .
 - cd ..
-script: vendor/bin/phpunit --group support --verbose --debug
+script: travis_wait vendor/bin/phpunit --group support --verbose --debug
 env:
   global:
     secure: cE1UK0J/EaVPxSG6qr6NEBYEOuBk+iR0CTlrgibpmJVkOWr34gu+HfsZSh4YvktkKLsGHJu2O4GeIGMAWnic/87+eWpeURXd5w1z14WgYpbDnL1h+TnZhjMJG9FRnmV1/5Krk9NxvIkHBWl3c9FuiCBQ88ZpmRDcxHauefftZoLqqrIq7kmQ7KHUzeWi1tUn7Ft+a56vmdajeGnKkPeLDix9wOeibDj6mDk4CeB5QeMB0APw4pjceAExfYMJcBjBshXD2GblmrW3j7OH4YSgSaYSR5DtRiOv2CjMfIr/jOHqMQn7dJzEIsPqBo9kDGrLZEm6SsWAcTuzX39NuVTKWa2v7VrTT7RBh8zInaJGYI9YIpOxuYZUesN9v38xb5SS0yqbC25YWVL0WDgCYe1nul0wE/4rP9tGJl8nbaxTbUnOs5++0Gcre1pHxgeeMydDmj4yqfIqiNgxn2TpdHaJzVPLuEAwK3cq/dkgGdg8hGfOxGZVZd5AxoBERjiZkf0rGcviAiWmfrPxmaR0jgJPtKyK41l6eEEO4zAe3XzctvqUyUa7352K0lDbI0HxA7H3RChj1u+4GacQ+Vge6Xt07ImpsOrcpRkikBLYEDoIwT8NFeE1BxpWli868Z7iESI+RN7wqZF1liNq4pc8CcfEqoTeNTicu5ISX9Vs4O2Zwk8=
