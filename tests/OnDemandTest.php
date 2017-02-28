@@ -5,6 +5,7 @@ namespace Sugarcrm\Support\Helpers\Packager\Tests;
 /**
  * Class OnDemandTest
  * @package Sugarcrm\Support\Helpers\Packager\Tests
+ * @group support
  */
 class OnDemandTest extends \PHPUnit_Framework_TestCase {
 

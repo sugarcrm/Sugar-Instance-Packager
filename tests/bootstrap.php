@@ -1,6 +1,6 @@
 <?php
 
-namespace Sugarcrm\Support\Tests\Helpers {
+namespace Sugarcrm\Support\Helpers\Packager\Tests\Helpers {
     // all files in /src directory
     $src = __DIR__ . '/../src/';
 

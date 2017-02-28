@@ -5,6 +5,7 @@ namespace Sugarcrm\Support\Helpers\Packager\Tests;
 /**
  * Class MySQLTest
  * @package Sugarcrm\Support\Helpers\Packager\Tests
+ * @group support
  */
 class MySQLTest extends \PHPUnit_Framework_TestCase {
 

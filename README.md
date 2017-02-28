@@ -1,7 +1,7 @@
 # Helpers for packaging Sugar applications.
 
 [![Build Status](https://travis-ci.com/sugarcrm/Support-Helpers-Packager.svg)](https://travis-ci.com/sugarcrm/Support-Helpers-Packager)
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.3-8892BF.svg?style=flat-square)](https://php.net/)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.4.2-8892BF.svg?style=flat-square)](https://php.net/)
 
 ##Executing the backups
 ```
