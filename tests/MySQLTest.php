@@ -1,9 +1,6 @@
 <?php
 
-namespace Sugarcrm\Support\Helpers\Packager\Tests\;
-
-use Sugarcrm\Support\Helpers\Internal\API\Clients;
-use Sugarcrm\Support\Helpers\Internal\API\Scarlett\Client as Scarlett;
+namespace Sugarcrm\Support\Helpers\Packager\Tests;
 
 /**
  * Class ClientsTest
