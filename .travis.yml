@@ -19,8 +19,6 @@ before_install:
 - openssl aes-256-cbc -k "$super_secret_password" -in encrypt.tar.gz.enc -out encrypt.tar.gz
   -d
 - tar -xzvf encrypt.tar.gz
-install:
-- travis_wait mvn install
 before_script:
 - composer install
 - unzip encrypt/Installers/$VERSION/Sugar$EDITION-$VERSION.zip &> /dev/null
