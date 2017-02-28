@@ -41,7 +41,7 @@ class ClientsTest extends \PHPUnit_Framework_TestCase {
     public function testBackup(){
         $time = time();
 
-        $namespace = '\\Sugarcrm\\Support\\Helpers\\Packager\\Instance\\MySQL\\Packager';
+        $namespace = '\\Sugarcrm\\Support\\Helpers\\Packager\\Instance\\OnDemand\\Packager';
 
         $packager = new $namespace(
             'sugar',
@@ -53,5 +53,6 @@ class ClientsTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertTrue(file_exists("backups/{$time}-files.zip"));
         $this->assertTrue(file_exists("backups/{$time}-db.zip"));
+        $this->assertTrue(file_exists("backups/{$time}-triggers.zip"));
     }
 }
