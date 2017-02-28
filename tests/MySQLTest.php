@@ -4,8 +4,7 @@ namespace Sugarcrm\Support\Helpers\Packager\Tests;
 
 /**
  * Class ClientsTest
- * @package Sugarcrm\Support\Helpers\Internal\Tests\API
- * @group support
+ * @package Sugarcrm\Support\Helpers\Packager\Tests
  */
 class ClientsTest extends \PHPUnit_Framework_TestCase {
 
@@ -34,9 +33,7 @@ class ClientsTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers ::getProperties
-     * @covers ::isClient
-     * @group clients
+     * Validates mysql backups
      */
     public function testBackup(){
         $time = time();
