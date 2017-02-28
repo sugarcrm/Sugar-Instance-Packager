@@ -31,7 +31,7 @@ before_script:
 - mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'sugarcrm'@'localhost' WITH GRANT
   OPTION;"
 - sudo chmod -R 777 Sugar$EDITION-Full-$VERSION
-- mv -R Sugar$EDITION-Full-$VERSION sugar
+- mv -f Sugar$EDITION-Full-$VERSION sugar
 - cd sugar
 - sleep 10
 - php cliSilentInstall.php
