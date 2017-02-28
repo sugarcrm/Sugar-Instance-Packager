@@ -3,10 +3,10 @@
 namespace Sugarcrm\Support\Helpers\Packager\Tests;
 
 /**
- * Class ClientsTest
+ * Class OnDemandTest
  * @package Sugarcrm\Support\Helpers\Packager\Tests
  */
-class ClientsTest extends \PHPUnit_Framework_TestCase {
+class OnDemandTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * Initialize objects

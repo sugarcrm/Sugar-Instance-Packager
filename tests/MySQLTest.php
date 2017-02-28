@@ -3,10 +3,10 @@
 namespace Sugarcrm\Support\Helpers\Packager\Tests;
 
 /**
- * Class ClientsTest
+ * Class MySQLTest
  * @package Sugarcrm\Support\Helpers\Packager\Tests
  */
-class ClientsTest extends \PHPUnit_Framework_TestCase {
+class MySQLTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * Initialize objects
