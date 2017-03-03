@@ -186,9 +186,10 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
     function getDBCommand($append = '')
     {
         //set @@global.show_compatibility_56=ON;
+        // --set-gtid-purged=OFF
         $command = "mysqldump";
 
-        $command .= " --set-gtid-purged=OFF --max_allowed_packet=1024M -e -Q --opt";
+        $command .= " --max_allowed_packet=1024M -e -Q --opt";
 
         if (isset($this->dbConfigOptions['ssl']) && $this->dbConfigOptions['ssl'] == true && isset($this->dbConfigOptions['ssl_options']['ssl_ca']) && $this->dbConfigOptions['ssl_options']['ssl_ca']) {
             $command .= " --ssl-mode=REQUIRED";
