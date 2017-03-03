@@ -1,7 +1,7 @@
 language: php
 services:
 - elasticsearch
-- mysql
+- mysqli
 matrix:
   include:
   - php: '5.6'

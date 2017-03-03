@@ -190,7 +190,7 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
 
         $command .= " --set-gtid-purged=OFF --max_allowed_packet=1024M -e -Q --opt";
 
-        if (isset($this->dbConfigOptions['ssl']) && isset($this->dbConfigOptions['ssl_options']['ssl_ca']) && $this->dbConfigOptions['ssl_options']['ssl_ca']) {
+        if (isset($this->dbConfigOptions['ssl']) && $this->dbConfigOptions['ssl'] == true && isset($this->dbConfigOptions['ssl_options']['ssl_ca']) && $this->dbConfigOptions['ssl_options']['ssl_ca']) {
             $command .= " --ssl-mode=REQUIRED";
             foreach ($this->dbConfigOptions as $key => $value) {
                 if (substr($key, 0, 4) == 'ssl_' && !is_null($value)) {

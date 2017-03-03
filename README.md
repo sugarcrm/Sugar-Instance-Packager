@@ -7,7 +7,7 @@
 
 To execute a backup, you can use `execute.php`. The setup is as follows
 ```
-cd <Support-Helpers-Packer Root>
+cd <Support-Helpers-Packager Root>
 php execute.php --source="/path/to/sugar" --destination="backups" --name="packageName"
 ```
 
