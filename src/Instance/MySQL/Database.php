@@ -41,7 +41,7 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
 
         $this->connection = new \mysqli();
 
-        if (isset($this->dbConfigOptions['ssl']) && isset($this->dbConfigOptions['ssl_options']['ssl_ca']) && $this->dbConfigOptions['ssl_options']['ssl_ca']) {
+        if (isset($this->dbConfigOptions['ssl']) && $this->dbConfigOptions['ssl'] == true && isset($this->dbConfigOptions['ssl_options']['ssl_ca']) && $this->dbConfigOptions['ssl_options']['ssl_ca']) {
             $this->connection->ssl_set(
                 $this->dbConfigOptions['ssl_options']['ssl_key'],
                 $this->dbConfigOptions['ssl_options']['ssl_cert'],
