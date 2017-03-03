@@ -34,7 +34,6 @@ before_script:
 - mysql -e "SHOW VARIABLES LIKE 'max_allowed_packet';"
 - mysql -e "SHOW VARIABLES LIKE 'wait_timeout';"
 - mysql -e "SHOW VARIABLES;"
-- sudo service mysql restart
 - sudo chmod -R 777 Sugar$EDITION-Full-$VERSION
 - mv -f Sugar$EDITION-Full-$VERSION sugar
 - cd sugar
