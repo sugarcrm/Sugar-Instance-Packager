@@ -149,8 +149,8 @@ abstract class Packager
     {
         $this->verifyConfig();
         $this->setEnvironment();
-        $this->packFiles();
         $this->packDatabase();
+        $this->packFiles();
     }
 
     /**
