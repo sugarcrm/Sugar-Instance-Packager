@@ -25,6 +25,8 @@ before_script:
 - cp -R encrypt/Tests/$TESTS/ Sugar$EDITION-Full-$VERSION/tests/
 - cp .travis/config_si.php Sugar$EDITION-Full-$VERSION/config_si.php
 - cp .travis/cliSilentInstall.php Sugar$EDITION-Full-$VERSION/cliSilentInstall.php
+- echo "[server]\nmax_allowed_packet=1024M" | sudo tee -a /etc/mysql/my.cnf
+- sudo service mysql restart
 - mysql -u root -e "CREATE USER 'sugarcrm'@'localhost' IDENTIFIED BY 'sugarcrm'"
 - mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'sugarcrm'@'localhost' WITH GRANT
   OPTION;"
