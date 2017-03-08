@@ -17,7 +17,7 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
     {
         parent::__construct($archivePath, $archiveName, $dbConfig, $dbConfigOptions);
 
-        if (isset($this->dbConfigOptions['ssl'])) {
+        if (isset($this->dbConfigOptions['ssl']) && $this->dbConfigOptions['ssl'] == true) {
             if (isset($this->dbConfigOptions['ssl_options']['ssl_ca']) && $this->dbConfigOptions['ssl_options']['ssl_ca']) {
                 //already set
             } else {

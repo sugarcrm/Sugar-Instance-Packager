@@ -53,7 +53,7 @@ abstract class Database
             $this->dbConfig['db_client_flags'] = 0;
         }
 
-        if (isset($this->dbConfigOptions['ssl'])) {
+        if (isset($this->dbConfigOptions['ssl']) && $this->dbConfigOptions['ssl'] == true) {
             if (isset($this->dbConfigOptions['ssl_options']['ssl_ca']) && $this->dbConfigOptions['ssl_options']['ssl_ca']) {
                 $this->dbConfigOptions['ssl_options']['ssl_key'] = isset($this->dbConfigOptions['ssl_options']['ssl_key']) ? $this->dbConfigOptions['ssl_options']['ssl_key'] : null;
                 $this->dbConfigOptions['ssl_options']['ssl_cert'] = isset($this->dbConfigOptions['ssl_options']['ssl_cert']) ? $this->dbConfigOptions['ssl_options']['ssl_cert'] : null;
