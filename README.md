@@ -5,10 +5,13 @@
 
 This repo serves as a starting point for packaging Sugar instances. We intend to extend this library in the near future with helpers for packaging Sugar modules, language packs, and themes.
 
+#Packaging Instances
+The following sections outline how to work with packaging a Sugar instance.
+
 ##Supported Databases
 * MySQL
 
-##Executing A Backup
+##Executing a Backup
 
 To execute a backup from the command line, you can use `execute.php`. The setup is as follows
 ```
@@ -21,8 +24,8 @@ $ php execute.php --source="/path/to/sugar" --destination="backups" --name="pack
 | ------------- | ------------- |
 | source  | The path to the Sugar instance folder  |
 | destination  | The path to the destination archive folder   |
-| name  | Optional. If left empty, backups generated will be created as `{timestamp}-{type}.zip`  |
-| type  | Optional. Determines the backup strategy. Valid options are `MySQL` and `OnDemand`. If left empty, backups are generated using the `OnDemand` methodology. `OnDemand` creates a `{name}-files.zip`, `{name}-db.zip`, and `{name}-triggers.zip` file that separates databse data rows from views and triggers. `MySQL` creates a `{name}-files.zip` and `{name}-db.zip`.|
+| name  | Optional. If left empty, backups generated will be saved as `{timestamp}-{archive}.zip`  |
+| type  | Optional. Determines the backup strategy. Valid options are `MySQL` and `OnDemand`. If left empty, backups are generated using the `OnDemand` methodology. `OnDemand` creates a `{name}-files.zip`, a `{name}-db.zip`, and a `{name}-triggers.zip` file that separates databse data rows from views and triggers. `MySQL` creates a `{name}-files.zip` and a `{name}-db.zip`.|
 
 ## Testing
 
@@ -43,7 +46,7 @@ Everyone is welcome to be involved by creating or improving packaging scripts. I
 # Licensed under Apache
 © 2017 SugarCRM Inc.  Licensed by SugarCRM under the Apache 2.0 license.
 
-#Third Party Libraries
+##Third Party Libraries
 * ZipStreamer MIT - PHP zip implementation to stream zips while appending files. 
     * [Github](https://github.com/frizinak/ZipStreamer) 
     * [Packagist](https://packagist.org/packages/frizinak/zip-streamer)
