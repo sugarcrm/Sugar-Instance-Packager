@@ -1,7 +1,7 @@
 language: php
 services:
 - elasticsearch
-- mysqli
+- mysql
 matrix:
   include:
   - php: '5.6'
@@ -23,13 +23,15 @@ before_script:
 - cp -R encrypt/Tests/$TESTS/ Sugar$EDITION-Full-$VERSION/tests/
 - cp .travis/config_si.php Sugar$EDITION-Full-$VERSION/config_si.php
 - cp .travis/cliSilentInstall.php Sugar$EDITION-Full-$VERSION/cliSilentInstall.php
-- echo "[server]\nmax_allowed_packet=1024M" | sudo tee -a /etc/mysql/my.cnf
+- echo -e "[server]\nmax_allowed_packet=1024M\nwait_timeout = 2147483" | sudo tee -a /etc/mysql/my.cnf
 - sudo service mysql restart
 - mysql -u root -e "CREATE USER 'sugarcrm'@'localhost' IDENTIFIED BY 'sugarcrm'"
 - mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'sugarcrm'@'localhost' WITH GRANT OPTION;"
+- mysql -u root -e "FLUSH PRIVILEGES;"
 # try to avoid mysql has gone away errors
-- mysql -e "SET GLOBAL wait_timeout = 2147483;"
-- mysql -e "SET GLOBAL max_allowed_packet = 134209536;"
+#- mysql -e "SET GLOBAL wait_timeout = 2147483;"
+#- mysql -e "SET GLOBAL max_allowed_packet = 134209536;"
+- sudo service mysql restart- sudo service mysql restart
 - mysql -e "SHOW VARIABLES LIKE 'max_allowed_packet';"
 - mysql -e "SHOW VARIABLES LIKE 'wait_timeout';"
 - mysql -e "SHOW VARIABLES;"
