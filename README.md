@@ -11,12 +11,19 @@ The following sections outline how to work with packaging a Sugar instance.
 ##Supported Databases
 * MySQL
 
+##Installing Library
+```
+git clone https://github.com/sugarcrm/Support-Helpers-Packager
+cd Support-Helpers-Packager
+composer install
+```
+
 ##Executing a Backup
 
 To execute a backup from the command line, you can use `execute.php`. The setup is as follows
 ```
-$ cd <Support-Helpers-Packager Root>
-$ php execute.php --source="/path/to/sugar" --destination="backups" --name="packageName"
+cd <Support-Helpers-Packager Root>
+php execute.php --source="/path/to/sugar" --destination="backups" --name="packageName"
 ```
 
 ###Command Options
@@ -31,8 +38,8 @@ $ php execute.php --source="/path/to/sugar" --destination="backups" --name="pack
 
 Requires PHPUnit.
 ```
-$ #install a Sugar instance to <Support-Helpers-Packager Root>/sugar
-$ vendor/bin/phpunit --group support --verbose
+#install a Sugar instance to <Support-Helpers-Packager Root>/sugar
+vendor/bin/phpunit --group support --verbose
 ```
 
 #Contributing
