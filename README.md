@@ -12,7 +12,7 @@ $ php execute.php --source="/path/to/sugar" --destination="backups" --name="pack
 ```
 
 ###Command Options
-| Long Option  | Description |
+| Option  | Description |
 | ------------- | ------------- |
 | source  | The path to the Sugar instance folder  |
 | destination  | The path to the destination archive folder   |
