@@ -14,10 +14,10 @@ $ php execute.php --source="/path/to/sugar" --destination="backups" --name="pack
 ###Command Options
 | Long Option  | Description |
 | ------------- | ------------- |
-| --source  | The path to the Sugar instance folder  |
-| --destination  | The path to the destination archive folder   |
-| --name  | Optional. If left empty, backups generated will be created as `{timestamp}-{type}.zip`  |
-| --type  | Optional. Determines the backup strategy. Valid options are `MySQL` and `OnDemand`. If left empty, backups are generated using the `OnDemand` methodology. `OnDemand` creates a `{name}-files.zip`, `{name}-db.zip`, and `{name}-triggers.zip` file that separates databse data rows from views and triggers. `MySQL` creates a `{name}-files.zip` and `{name}-db.zip`.|
+| source  | The path to the Sugar instance folder  |
+| destination  | The path to the destination archive folder   |
+| name  | Optional. If left empty, backups generated will be created as `{timestamp}-{type}.zip`  |
+| type  | Optional. Determines the backup strategy. Valid options are `MySQL` and `OnDemand`. If left empty, backups are generated using the `OnDemand` methodology. `OnDemand` creates a `{name}-files.zip`, `{name}-db.zip`, and `{name}-triggers.zip` file that separates databse data rows from views and triggers. `MySQL` creates a `{name}-files.zip` and `{name}-db.zip`.|
 
 ## Testing
 
