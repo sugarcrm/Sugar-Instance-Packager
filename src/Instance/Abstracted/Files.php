@@ -54,7 +54,7 @@ abstract class Files
             if ($fileinfo->isDir()) {
                 $zip->addEmptyDir($subPathName);
             } else {
-                $this->addLog('Adding ' . $fileinfo->getPathname());
+                //$this->addLog('Adding ' . $fileinfo->getPathname());
                 $zip->addFile($fileinfo->getPathname(), $subPathName);
                 $bytestotal += $fileinfo->getSize();
             }
