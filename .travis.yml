@@ -36,7 +36,7 @@ before_script:
 - php cliSilentInstall.php
 - sudo chmod -R 777 .
 - cd ..
-- mysqldump --max_allowed_packet=1024M -e -Q --opt -h 'localhost' -u 'sugarcrm' -p'sugarcrm' 'sugar > testdump.sql
+- mysqldump --max_allowed_packet=1024M -e -Q --opt -h 'localhost' -u 'sugarcrm' -p'sugarcrm' 'sugar' > testdump.sql
 - ls -l testdump.sql
 script: travis_wait vendor/bin/phpunit --group support --verbose --debug
 env:
