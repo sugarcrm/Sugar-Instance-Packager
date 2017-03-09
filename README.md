@@ -11,7 +11,7 @@ The following sections outline how to work with packaging a Sugar instance.
 ##Supported Databases
 * MySQL
 
-##Installing Library
+##Installation
 ```
 git clone https://github.com/sugarcrm/Support-Helpers-Packager
 cd Support-Helpers-Packager
