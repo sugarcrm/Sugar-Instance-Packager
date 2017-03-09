@@ -7,7 +7,6 @@ matrix:
     env: VERSION=7.7.2.1 EDITION=Ent TESTS=7.7
 before_install:
 - echo "error_reporting = E_ALL & ~E_NOTICE & ~E_STRICT" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-- sudo apt-get purge elasticsearch
 - sudo curl -O https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.4.deb
 - sudo dpkg -i --force-confnew elasticsearch-1.4.4.deb
 - sudo service elasticsearch restart
