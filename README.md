@@ -53,7 +53,7 @@ Everyone is welcome to be involved by creating or improving packaging scripts. I
 # Licensed under Apache
 © 2017 SugarCRM Inc.  Licensed by SugarCRM under the Apache 2.0 license.
 
-##Third Party Libraries
+## Third Party Libraries
 * ZipStreamer MIT - PHP zip implementation to stream zips while appending files. 
     * [Github](https://github.com/frizinak/ZipStreamer) 
     * [Packagist](https://packagist.org/packages/frizinak/zip-streamer)
