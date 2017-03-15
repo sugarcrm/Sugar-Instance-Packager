@@ -5,20 +5,20 @@
 
 This repo serves as a starting point for packaging Sugar instances. We intend to extend this library in the near future with helpers for packaging Sugar modules, language packs, and themes.
 
-#Packaging Instances
+# Packaging Instances
 The following sections outline how to work with packaging a Sugar instance.
 
-##Supported Databases
+## Supported Databases
 * MySQL
 
-##Installation
+## Installation
 ```
 git clone https://github.com/sugarcrm/Support-Helpers-Packager
 cd Support-Helpers-Packager
 composer install
 ```
 
-##Executing a Backup
+## Executing a Backup
 
 To execute a backup from the command line, you can use `execute.php`. The setup is as follows
 ```
@@ -26,7 +26,7 @@ cd <Support-Helpers-Packager Root>
 php execute.php --source="/path/to/sugar" --destination="backups" --name="packageName"
 ```
 
-###Command Options
+### Command Options
 | Option  | Description |
 | ------------- | ------------- |
 | source  | The path to the Sugar instance folder  |
@@ -42,7 +42,7 @@ Requires PHPUnit.
 vendor/bin/phpunit --group support --verbose
 ```
 
-#Contributing
+# Contributing
 Everyone is welcome to be involved by creating or improving packaging scripts. If you would like to contribute, please make sure to review the [CONTRIBUTOR TERMS](CONTRIBUTOR TERMS.pdf). When you update this [README](README.md), please check out the [contribution guidelines](CONTRIBUTING.md) for helpful hints and tips that will make it easier to accept your pull request.
 
 ## Contributors
