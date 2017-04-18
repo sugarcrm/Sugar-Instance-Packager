@@ -20,7 +20,7 @@
     {
         "type":"package",
         "package": {
-          "name": "frizinak/zip-streamer",
+          "name": "frizinak/ZipStreamer",
           "version":"master",
           "source": {
               "url": "https://github.com/frizinak/ZipStreamer.git",
