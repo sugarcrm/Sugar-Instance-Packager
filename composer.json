@@ -17,22 +17,22 @@
         }
     ],
     "repositories": [
-    {
-        "type":"package",
-        "package": {
-          "name": "frizinak/ZipStreamer",
-          "version":"master",
-          "source": {
-              "url": "https://github.com/frizinak/ZipStreamer.git",
-              "type": "git",
-              "reference":"master"
+        {
+            "type":"package",
+            "package": {
+                "name": "frizinak/ZipStreamer",
+                "version":"dev-master",
+                "source": {
+                    "url": "https://github.com/frizinak/ZipStreamer",
+                    "type": "git",
+                    "reference":"master"
+                }
             }
         }
-    }
     ],
     "require": {
         "php": ">=5.4.2",
-        "frizinak/ZipStreamer": "master"
+        "frizinak/ZipStreamer": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0"
