@@ -15,7 +15,7 @@ The following sections outline how to work with packaging a Sugar instance.
 ```
 git clone https://github.com/sugarcrm/Support-Helpers-Packager
 cd Support-Helpers-Packager
-composer install
+composer install --no-dev
 ```
 
 ## Executing a Backup
