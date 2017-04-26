@@ -43,7 +43,7 @@ vendor/bin/phpunit --group support --verbose
 ```
 
 # Contributing
-Everyone is welcome to be involved by creating or improving packaging scripts. If you would like to contribute, please make sure to review the [CONTRIBUTOR TERMS](CONTRIBUTOR TERMS.pdf). When you update this [README](README.md), please check out the [contribution guidelines](CONTRIBUTING.md) for helpful hints and tips that will make it easier to accept your pull request.
+Everyone is welcome to be involved by creating or improving packaging scripts. If you would like to contribute, please make sure to review the [CONTRIBUTOR TERMS](CONTRIBUTOR%20TERMS.pdf). When you update this [README](README.md), please check out the [contribution guidelines](CONTRIBUTING.md) for helpful hints and tips that will make it easier to accept your pull request.
 
 ## Contributors
 [Jerry Clark](https://github.com/geraldclark)
