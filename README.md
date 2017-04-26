@@ -29,8 +29,8 @@ php execute.php --source="/path/to/sugar" --destination="backups" --name="packag
 ### Command Options
 | Option  | Description |
 | ------------- | ------------- |
-| source  | The path to the Sugar instance folder  |
-| destination  | The path to the destination archive folder   |
+| source  | The pull path to the Sugar instance folder  |
+| destination  | The full path to the destination archive folder or the relative path within your packager directory  |
 | name  | Optional. If left empty, backups generated will be saved as `{timestamp}-{archive}.zip`  |
 | type  | Optional. Determines the backup strategy. Valid options are `MySQL` and `OnDemand`. If left empty, backups are generated using the `OnDemand` methodology. `OnDemand` creates a `{name}-files.zip`, a `{name}-db.zip`, and a `{name}-triggers.zip` file that separates databse data rows from views and triggers. `MySQL` creates a `{name}-files.zip` and a `{name}-db.zip`.|
 
