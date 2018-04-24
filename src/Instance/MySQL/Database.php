@@ -62,7 +62,7 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
         );
 
         if ($this->connection->connect_errno) {
-            throw new \Exception("Failed to connect to MySQL: (" . $this->connection->connect_errno . ") " . $this->connection->connect_erro);
+            throw new \Exception("Failed to connect to MySQL: ({$this->connection->connect_errno}) {$this->connection->connect_error}", 1);
         }
     }
 
@@ -90,7 +90,7 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
         $result = $this->connection->query("SHOW TRIGGERS IN " . $this->dbConfig['db_name']);
 
         if (!$result) {
-            throw new \Exception("Could not query triggers from database.");
+            throw new \Exception("Could not query triggers from database.", 1);
         }
 
         $this->disconnect();
@@ -115,7 +115,7 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
         $result = $this->connection->query("SHOW FULL TABLES IN " . $this->dbConfig['db_name'] . " WHERE TABLE_TYPE LIKE 'VIEW'");
 
         if (!$result) {
-            throw new \Exception("Could not query views from database.");
+            throw new \Exception("Could not query views from database.", 1);
         }
 
         $this->disconnect();

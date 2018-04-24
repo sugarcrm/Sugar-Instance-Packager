@@ -34,21 +34,21 @@ class Packager extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Pa
         parent::verifyConfig();
 
         if (empty($this->config['dbconfig']['db_type'])) {
-            throw new \Exception("config dbconfig.db_type is empty.");
+            throw new \Exception("config dbconfig.db_type is empty.", 1);
         }
 
         if ($this->config['dbconfig']['db_type'] != 'mysql') {
-            throw new \Exception("config dbconfig.db_type is not mysql.");
+            throw new \Exception("config dbconfig.db_type is not mysql.", 1);
         }
 
         $mysqlTest = shell_exec("mysql 2>&1");
         if (strpos($mysqlTest, 'command not found') !== false) {
-            throw new \Exception("mysql not found.");
+            throw new \Exception("mysql not found.", 1);
         }
 
         $mysqldumpTest = shell_exec("mysqldump 2>&1");
         if (strpos($mysqldumpTest, 'command not found') !== false) {
-            throw new \Exception("mysqldump not found.");
+            throw new \Exception("mysqldump not found.", 1);
         }
     }
 

@@ -49,14 +49,14 @@ abstract class Packager
         //verify path
         $sugarPath = rtrim($sugarPath, '/');
         if (!is_dir($sugarPath)) {
-            throw new \Exception("'{$sugarPath}' is not a Sugar directory");
+            throw new \Exception("'{$sugarPath}' is not a directory", 1);
         }
         $this->sugarPath = $sugarPath;
 
         //verify archive destination
         $archivePath = rtrim($archivePath, '/');
         if (!is_dir($archivePath)) {
-            throw new \Exception("'{$archivePath}' is not a directory");
+            throw new \Exception("'{$archivePath}' is not a directory", 1);
         }
         $this->archivePath = $archivePath;
 
