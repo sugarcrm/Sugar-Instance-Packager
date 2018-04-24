@@ -1,6 +1,6 @@
 <?php
 
-namespace Sugarcrm\Support\Helpers\Packager\Instance\OnDemand;
+namespace Sugarcrm\Support\Helpers\Packager\Instance\Cloud;
 
 class Packager extends \Sugarcrm\Support\Helpers\Packager\Instance\MySQL\Packager
 {
