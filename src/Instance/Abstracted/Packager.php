@@ -7,6 +7,7 @@ abstract class Packager
     protected $sugarPath;
     protected $archivePath;
     protected $archiveName;
+    protected $archive;
     protected $config;
     protected $log = array();
 
@@ -59,19 +60,16 @@ abstract class Packager
         //verify archive destination
         $this->sugarPath = $sugarPath;
 
-        $archivePath = rtrim($archivePath, '/');
-        if (!is_dir($archivePath)) {
+        if (!is_dir(realpath($archivePath))) {
             throw new \Exception("'{$archivePath}' is not a directory", 1);
         }
-        $this->archivePath = $archivePath;
+        $this->archivePath = realpath($archivePath);
+	$this->archiveName = $archiveName;
+        $this->archive     = "${archivePath}/{$archiveName}";
 
-        //set archive name
-        $archiveName = rtrim($archiveName, ".zip");
-        if (empty($archiveName)) {
-            $archiveName = time();
+        if (is_file($this->archive)) {
+		throw new \Exception("'{$this->archive}' already exists", 1);
         }
-
-        $this->archiveName = $archiveName;
 
         $this->loadConfig();
 
@@ -163,7 +161,7 @@ abstract class Packager
 
 	/* having the manifest inside the package costs us nothing and is a handy backup in a number of scenarios */
         $zip = new \ZipArchive();
-	$zip->open("{$archivePath}/{$archiveName}");
+        $zip->open($this->archive);
 	$zip->addFromString("manifest.json", json_encode($manifest));
 	$zip->close();
 	

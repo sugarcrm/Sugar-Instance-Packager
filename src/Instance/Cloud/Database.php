@@ -11,9 +11,9 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\MySQL\Databas
      * @param $dbConfig
      * @param $dbConfigOptions
      */
-    function __construct($archivePath, $archiveName, $dbConfig, $dbConfigOptions)
+    function __construct($archive, $dbConfig, $dbConfigOptions)
     {
-        parent::__construct($archivePath, $archiveName, $dbConfig, $dbConfigOptions);
+        parent::__construct($archive, $dbConfig, $dbConfigOptions);
     }
 
     /**
@@ -21,6 +21,8 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\MySQL\Databas
      */
     function pack()
     {
+        $this->addLog('Packing database...');
+
         $trigger_options = " --no-create-db --no-data --routines";
         $skip_views = "";
 
@@ -43,14 +45,12 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\MySQL\Databas
 
         $this->package = array(
             'db' => array(
-                'mysqldump_cmd' => $this->getDBCommand($skip_views),
-                'filename' => "{$this->archiveName}-db.sql",
-                'path' => "{$this->archivePath}/{$this->archiveName}-db.zip"
+                'mysqldump_cmd' => $this->getDBCommand($skip_views . " 2> %s"),
+                'filename' => basename($this->archive, ".zip") . "-db.sql",
             ),
             'triggers' => array(
-                'mysqldump_cmd' => $this->getDBCommand($trigger_options . " " . $views . " | sed -e 's/DEFINER[ ]*=[ ]*[^*]*\*/\*/'"),
-                'filename' => "{$this->archiveName}-triggers.sql",
-                'path' => "{$this->archivePath}/{$this->archiveName}-triggers.zip"
+                'mysqldump_cmd' => $this->getDBCommand($trigger_options . " " . $views . " 2> %s | sed -e 's/DEFINER[ ]*=[ ]*[^*]*\*/\*/'"),
+                'filename' => basename($this->archive, ".zip") . "-triggers.sql",
             )
         );
 

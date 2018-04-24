@@ -14,15 +14,6 @@ class Packager extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Pa
     {
         parent::__construct($sugarPath, $archivePath, $archiveName);
 
-        $targetDB = $this->archivePath . '/' . $this->archiveName . '-db.zip';
-        if (is_file($targetDB)) {
-            throw new \Exception("'{$targetDB}' already exists");
-        }
-
-        $targetFiles = $this->archivePath . '/' . $this->archiveName . '-files.zip';
-        if (is_file($targetFiles)) {
-            throw new \Exception("'{$targetFiles}' already exists");
-        }
     }
 
     /**
@@ -57,7 +48,7 @@ class Packager extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Pa
      */
     public function packFiles()
     {
-        $filePacker = new Files($this->sugarPath, $this->archivePath, $this->archiveName);
+        $filePacker = new Files($this->sugarPath, $this->archive);
         return $filePacker->pack();
     }
 
@@ -66,7 +57,7 @@ class Packager extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Pa
      */
     public function packDatabase()
     {
-        $db = new Database($this->archivePath, $this->archiveName, $this->config['dbconfig'], $this->config['dbconfigoption']);
+        $db = new Database($this->archive, $this->config['dbconfig'], $this->config['dbconfigoption']);
         return $db->pack();
     }
 }

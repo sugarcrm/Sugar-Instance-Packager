@@ -12,11 +12,12 @@ abstract class Files
     /**
      * Files constructor.
      * @param $sugarPath - the directory to be zipped
-     * @param $destinationFolder - the zip file to archive to
-     * @param $archiveName - the name of the archive
+     * @param $archive   - the absolute path (including filename) of the archive we're making
      */
-    function __construct($sugarPath, $destinationFolder, $archiveName)
+    function __construct($sugarPath, $archive)
     {
+        $this->sugarPath = $sugarPath;
+        $this->archive = $archive;
 
         $this->manifest = json_decode(file_get_contents("{$sugarPath}/sugar_version.json"), true);
 	$this->manifest['files'] = array("filesystem");
@@ -33,7 +34,13 @@ abstract class Files
 
         $bytestotal = 0;
         $zip = new \ZipArchive();
-        $zip->open($this->destination, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+        $result = $zip->open($this->archive);
+        if (TRUE !== $result) {
+            throw new \Exception("Could not open {$this->archive}: {$result}", 1);
+        }
+
+        $archiveName = basename($this->archive, ".zip");
+        $zip->addEmptyDir($archiveName);
 
         $iterator = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator(
@@ -44,7 +51,7 @@ abstract class Files
         );
 
         foreach ($iterator as $fileinfo) {
-            $subPathName = $iterator->getSubPathname();
+            $subPathName = sprintf("%s/%s", $archiveName, $iterator->getSubPathname());
             if ($fileinfo->isDir()) {
                 $zip->addEmptyDir($subPathName);
             } else {
@@ -54,7 +61,6 @@ abstract class Files
             }
         }
 
-	$this->addLog('Closing zip...');
 	$zip->close();
 
         $this->manifest['files_uncompressed_size'] = $bytestotal;

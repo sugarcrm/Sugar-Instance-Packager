@@ -8,14 +8,13 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
 
     /**
      * Database constructor.
-     * @param $archivePath
-     * @param $archiveName
+     * @param $archive
      * @param $dbConfig
      * @param $dbConfigOptions
      */
-    function __construct($archivePath, $archiveName, $dbConfig, $dbConfigOptions)
+    function __construct($archive, $dbConfig, $dbConfigOptions)
     {
-        parent::__construct($archivePath, $archiveName, $dbConfig, $dbConfigOptions);
+        parent::__construct($archive, $dbConfig, $dbConfigOptions);
 
         if (isset($this->dbConfigOptions['ssl']) && $this->dbConfigOptions['ssl'] == true) {
             if (isset($this->dbConfigOptions['ssl_options']['ssl_ca']) && $this->dbConfigOptions['ssl_options']['ssl_ca']) {
@@ -138,8 +137,7 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
         $this->package = array(
             'db' => array(
                 'mysqldump_cmd' => $this->getDBCommand(),
-                'filename' => "{$this->archiveName}-db.sql",
-                'path' => "{$this->archivePath}/{$this->archiveName}-db.zip"
+                'filename' => basename($this->archive, ".zip") . "-db.sql",
             )
         );
 
@@ -153,27 +151,28 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
      */
     function execute()
     {
-        foreach ($this->package as $package) {
-
-            $this->addLog($package['mysqldump_cmd']);
-
+        $output = new \ZipStreamer\Output\File($this->archive);
+        $zip = new \ZipStreamer\ZipStreamer($output);
+        foreach ($this->package as $pkg_name => $package) {
             $stdout = popen($package['mysqldump_cmd'], "r");
-            $output = new \ZipStreamer\Output\File($package['path']);
-            $zip = new \ZipStreamer\ZipStreamer($output);
             $zip->add($package['filename'], $stdout, -1);
-            $zip->flush();
             $this->manifest['files'][] = $package['filename'];
 
-            if (!file_exists($package['path'])) {
-                throw new \Exception("could not create package {$package['path']}!", 1);
-            }
+        }
 
-            $zip = new \ZipArchive();
-            $zip->open($package['path']);
+	$zip->flush();
+
+        if (!file_exists($this->archive)) {
+            throw new \Exception("could not create package {$package['path']}!", 1);
+        }
+
+        $zip = new \ZipArchive();
+        $zip->open($this->archive);
+        foreach ($this->package as $pkg_name => $package) {
             $stat = $zip->statName($package['filename']);
             $this->manifest["${pkg_name}_uncompressed_size"] = $stat['size'];
-            $zip->close();
         }
+        $zip->close();
     }
 
     /**
@@ -187,8 +186,12 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
         //set @@global.show_compatibility_56=ON;
         // --set-gtid-purged=OFF
 	$command = "mysqldump";
+        $devnull  = "/dev/null";
         /* are we on a windows server? */
-        if (stristr(php_uname('s'), "windows")) {  $command .= ".exe"; }
+        if (stristr(php_uname('s'), "windows")) { 
+            $command .= ".exe";
+            $devnull  = "nul";
+        }
 
 
         $command .= " --max_allowed_packet=1024M -e -Q --opt";
@@ -217,7 +220,7 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
             $command .= " -P " . $this->dbConfig['db_port'];
         }
 
-        $command .= $append;
+        $command .= sprintf($append, $devnull);
 
         return $command;
     }
