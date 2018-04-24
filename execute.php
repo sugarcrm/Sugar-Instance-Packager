@@ -35,5 +35,36 @@ if (!empty($options['upload'])) {
     );
 
     $packager->pack();
+    $package = "${options['destination']}/${options['name']}";
 }
 
+//no point in trying to upload if we weren't asked to
+if (isset($options['upload'])) {
+
+    if (empty($credentials)) {
+        print "no AWS credentials found, could not upload package\n";
+        exit(1);
+    }
+
+    $result = false;
+    try{
+        echo "Connecting to S3 bucket...\n";
+        $s3Client = new Aws\S3\S3Client([
+            'version' => 'latest',
+            'region'  => 'us-east-1',
+            'credentials' => $credentials
+        ]);
+
+        echo "Uploading package...\n";
+        $result = $s3Client->putObject([
+            'Bucket'     => $options['s3bucket'],
+            'Key'        => $options['name'],
+            'SourceFile' => $package,
+        ]);
+    } catch (S3Exception $e) {
+        echo $e->getMessage() . "\n";
+    }
+    if ($result) {
+        printf( "Uploaded %s to S3 \n\tETag '%s' \n\texpires on %s\n", "{$options['destination']}/{$options['name']}", $result['ETag'], $result['Expiration']);
+    }
+}
