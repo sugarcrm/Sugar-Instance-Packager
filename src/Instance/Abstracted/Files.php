@@ -4,21 +4,21 @@ namespace Sugarcrm\Support\Helpers\Packager\Instance\Abstracted;
 
 abstract class Files
 {
-    protected $source;
+    protected $sugarPath;
     protected $destination;
     protected $log = array();
     protected $manifest = array();
 
     /**
      * Files constructor.
-     * @param $sourceFolder - the directory to zip
+     * @param $sugarPath - the directory to be zipped
      * @param $destinationFolder - the zip file to archive to
      * @param $archiveName - the name of the archive
      */
-    function __construct($sourceFolder, $destinationFolder, $archiveName)
+    function __construct($sugarPath, $destinationFolder, $archiveName)
     {
-        if (!is_dir($sourceFolder)) {
-            throw new \Exception("'{$sourceFolder}' is not a valid directory");
+        if (!is_dir($sugarPath)) {
+            throw new \Exception("'{$sugarPath}' is not a valid directory");
         }
 
         if (!is_dir($destinationFolder)) {
@@ -44,7 +44,7 @@ abstract class Files
 
         $it = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator(
-                $this->source,
+                $this->sugarPath,
                 \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS
             ),
             \RecursiveIteratorIterator::SELF_FIRST
