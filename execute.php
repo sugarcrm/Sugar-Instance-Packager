@@ -33,6 +33,9 @@ $getOpt = new \GetOpt\GetOpt(
         ->setDescription('Upload the package being created OR specify an existing package to be uploaded.')
         ->setArgumentName('path to package'),
 
+    \GetOpt\Option::create(null, 'aws-creds',   \GetOpt\GetOpt::REQUIRED_ARGUMENT)
+        ->setDescription('AWS Access Key/Secret pair, separated by ":". If no credentials are provided, attempts to load credentials from environment variables, then "~/.aws/credentials", then "~/.aws/config".')
+        ->setArgumentName('key:secret'),
 
     \GetOpt\Option::create(null, 's3bucket',    \GetOpt\GetOpt::REQUIRED_ARGUMENT)
         ->setDescription('S3 Bucket to upload package to')
@@ -79,6 +82,20 @@ if ($options['version']) {
     echo $versionText;
     exit();
 }
+
+// use AWS creds from the cli first
+// if none were given, check for existing credentials using AWS SDK
+// no credentials means we can't upload, so leave the package in place and fail loudly
+if (!empty($options['aws-creds'])) {
+    $options['aws-creds'] = explode(":", $options['aws-creds']);
+    $provider = new \Aws\Credentials\Credentials($options['aws-creds'][0], $options['aws-creds'][1]);
+} else {
+    $provider = \Aws\Credentials\CredentialProvider::defaultProvider();
+    $provider = $provider()->wait();
+}
+
+$credentials = $provider->toArray();
+
 
 //allow uploading to be completed separate from packing
 //if upload isn't empty, then that's the package we're trying to upload
