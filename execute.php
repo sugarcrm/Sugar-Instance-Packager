@@ -96,6 +96,14 @@ if (!empty($options['aws-creds'])) {
 
 $credentials = $provider->toArray();
 
+//set archive name
+if (empty($options['name'])) {
+    $options['name'] = time() . ".zip";
+    if (!empty($credentials['key'])) {
+        $options['name'] = "{$credentials['key']}.{$options['name']}";
+    }
+}
+
 
 //allow uploading to be completed separate from packing
 //if upload isn't empty, then that's the package we're trying to upload
