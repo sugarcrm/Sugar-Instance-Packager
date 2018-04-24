@@ -11,6 +11,10 @@ abstract class Packager
     protected $config;
     protected $log = array();
 
+
+    const APPNAME = 'Support-Helpers-Packager';
+    const VERSION = '1.0.0';
+
     /**
      * Captures an events message
      * @param $message
