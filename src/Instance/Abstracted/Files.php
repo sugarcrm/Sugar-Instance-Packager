@@ -17,13 +17,6 @@ abstract class Files
      */
     function __construct($sugarPath, $destinationFolder, $archiveName)
     {
-        if (!is_dir($sugarPath)) {
-            throw new \Exception("'{$sugarPath}' is not a valid directory");
-        }
-
-        if (!is_dir($destinationFolder)) {
-            throw new \Exception("'{$destinationFolder}' is not a valid directory");
-        }
 
         $this->manifest = json_decode(file_get_contents("{$sugarPath}/sugar_version.json"), true);
 	$this->manifest['files'] = array("filesystem");

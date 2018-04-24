@@ -51,9 +51,14 @@ abstract class Packager
         if (!is_dir($sugarPath)) {
             throw new \Exception("'{$sugarPath}' is not a directory", 1);
         }
-        $this->sugarPath = $sugarPath;
+
+	if (!is_file("{$sugarPath}/sugar_version.json")) {
+	    throw new \Exception("{$sugarPath} does not seem to contain a valid Sugar installation; can't read sugar_version.json", 1);
+	}
 
         //verify archive destination
+        $this->sugarPath = $sugarPath;
+
         $archivePath = rtrim($archivePath, '/');
         if (!is_dir($archivePath)) {
             throw new \Exception("'{$archivePath}' is not a directory", 1);
