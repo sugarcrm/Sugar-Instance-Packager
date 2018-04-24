@@ -35,7 +35,7 @@ abstract class Files
         $zip = new \ZipArchive();
         $zip->open($this->destination, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
 
-        $it = new \RecursiveIteratorIterator(
+        $iterator = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator(
                 $this->sugarPath,
                 \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS
@@ -43,8 +43,8 @@ abstract class Files
             \RecursiveIteratorIterator::SELF_FIRST
         );
 
-        foreach ($it as $fileinfo) {
-            $subPathName = $it->getSubPathname();
+        foreach ($iterator as $fileinfo) {
+            $subPathName = $iterator->getSubPathname();
             if ($fileinfo->isDir()) {
                 $zip->addEmptyDir($subPathName);
             } else {
