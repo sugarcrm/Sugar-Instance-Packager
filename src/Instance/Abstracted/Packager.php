@@ -149,8 +149,20 @@ abstract class Packager
     {
         $this->verifyConfig();
         $this->setEnvironment();
-        $this->packDatabase();
-        $this->packFiles();
+
+        /* order is important; DB has to be first because ZipStreamer can't to append to existing zip files */
+	$manifest = array_merge_recursive(
+            $this->packDatabase(),
+            $this->packFiles()
+        );
+
+	/* having the manifest inside the package costs us nothing and is a handy backup in a number of scenarios */
+        $zip = new \ZipArchive();
+	$zip->open("{$archivePath}/{$archiveName}");
+	$zip->addFromString("manifest.json", json_encode($manifest));
+	$zip->close();
+	
+        return $manifest;
     }
 
     /**

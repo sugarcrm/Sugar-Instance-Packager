@@ -11,6 +11,7 @@ abstract class Database
 
     protected $connection = null;
     protected $log = array();
+    protected $manifest = array();
 
     /**
      * Database constructor.

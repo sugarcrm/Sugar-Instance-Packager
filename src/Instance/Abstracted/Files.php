@@ -7,6 +7,7 @@ abstract class Files
     protected $source;
     protected $destination;
     protected $log = array();
+    protected $manifest = array();
 
     /**
      * Files constructor.
@@ -24,8 +25,8 @@ abstract class Files
             throw new \Exception("'{$destinationFolder}' is not a valid directory");
         }
 
-        $this->source = $sourceFolder;
-        $this->destination = $destinationFolder . "/{$archiveName}-files.zip";
+        $this->manifest = json_decode(file_get_contents("{$sugarPath}/sugar_version.json"), true);
+	$this->manifest['files'] = array("filesystem");
 
         return $this;
     }
@@ -60,13 +61,11 @@ abstract class Files
             }
         }
 
-        $zip->addFromString(
-            "manifest.json",
-            json_encode(array('uncompressed_size' => $bytestotal))
-        );
+	$this->addLog('Closing zip...');
+	$zip->close();
 
-        $this->addLog('Closing zip...');
-        $zip->close();
+        $this->manifest['files_uncompressed_size'] = $bytestotal;
+        return $this->manifest;
     }
 
     /**

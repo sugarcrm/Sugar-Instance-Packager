@@ -26,7 +26,7 @@ class Packager extends \Sugarcrm\Support\Helpers\Packager\Instance\MySQL\Package
     public function packFiles()
     {
         $filePacker = new Files($this->sugarPath, $this->archivePath, $this->archiveName);
-        $filePacker->pack();
+        return $filePacker->pack();
     }
 
     /**
@@ -35,6 +35,6 @@ class Packager extends \Sugarcrm\Support\Helpers\Packager\Instance\MySQL\Package
     public function packDatabase()
     {
         $db = new Database($this->archivePath, $this->archiveName, $this->config['dbconfig'], $this->config['dbconfigoption']);
-        $db->pack();
+        return $db->pack();
     }
 }

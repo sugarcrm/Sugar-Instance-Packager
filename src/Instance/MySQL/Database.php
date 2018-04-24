@@ -144,6 +144,7 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
         );
 
         $this->execute();
+        return $this->manifest;
     }
 
     /**
@@ -161,6 +162,7 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
             $zip = new \ZipStreamer\ZipStreamer($output);
             $zip->add($package['filename'], $stdout, -1);
             $zip->flush();
+            $this->manifest['files'][] = $package['filename'];
 
             if (!file_exists($package['path'])) {
                 throw new \Exception("could not create package {$package['path']}!", 1);
@@ -169,10 +171,7 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
             $zip = new \ZipArchive();
             $zip->open($package['path']);
             $stat = $zip->statName($package['filename']);
-            $zip->addFromString(
-                "manifest.json",
-                json_encode(array('uncompressed_size' => $stat['size']))
-            );
+            $this->manifest["${pkg_name}_uncompressed_size"] = $stat['size'];
             $zip->close();
         }
     }

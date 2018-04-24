@@ -55,5 +55,6 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\MySQL\Databas
         );
 
         $this->execute();
+        return $this->manifest;
     }
 }
