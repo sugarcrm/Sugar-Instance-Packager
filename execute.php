@@ -28,13 +28,18 @@ if (!empty($options['upload'])) {
 } else {
     $namespace = '\\Sugarcrm\\Support\\Helpers\\Packager\\Instance\\' . $options['type'] . '\\Packager';
 
-    $packager = new $namespace(
-        $options['source'],
-        $options['destination'],
-        $options['name']
-    );
+    try {
+        $packager = new $namespace(
+            $options['source'],
+            $options['destination'],
+            $options['name']
+        );
 
-    $packager->pack();
+        $manifest = $packager->pack();
+    } catch (Exception $e) {
+        printf("Error: %s \n", $e->getMessage());
+        exit($e->getCode());
+    }
     $package = "${options['destination']}/${options['name']}";
 }
 
