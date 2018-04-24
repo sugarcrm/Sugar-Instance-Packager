@@ -187,7 +187,10 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
     {
         //set @@global.show_compatibility_56=ON;
         // --set-gtid-purged=OFF
-        $command = "mysqldump";
+	$command = "mysqldump";
+        /* are we on a windows server? */
+        if (stristr(php_uname('s'), "windows")) {  $command .= ".exe"; }
+
 
         $command .= " --max_allowed_packet=1024M -e -Q --opt";
 
