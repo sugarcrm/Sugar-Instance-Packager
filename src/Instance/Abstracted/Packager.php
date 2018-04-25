@@ -47,15 +47,11 @@ abstract class Packager
      */
     public function __construct($sugarPath, $archivePath, $archiveName = '')
     {
-        if (empty($sugarPath)) {
-            $sugarPath = getcwd();
-        }
-
         //verify path
-        $sugarPath = rtrim($sugarPath, '/');
-        if (!is_dir($sugarPath)) {
+        if (!is_dir(realpath($sugarPath))) {
             throw new \Exception("'{$sugarPath}' is not a directory", 1);
-        }
+	}
+	$sugarPath = realpath($sugarPath);
 
 	if (!is_file("{$sugarPath}/sugar_version.json")) {
 	    throw new \Exception("{$sugarPath} does not seem to contain a valid Sugar installation; can't read sugar_version.json", 1);
