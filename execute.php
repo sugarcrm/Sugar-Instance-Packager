@@ -46,17 +46,19 @@ $getOpt = new \GetOpt\GetOpt(
 
 
 //"operands" are positional arguments
-//source is the only required argument for the script
+//sugar-path is required, but only if upload !== 1
 $getOpt->addOperands(
     [
-    \GetOpt\Operand::create('sugar path',      \GetOpt\Operand::REQUIRED),
+    \GetOpt\Operand::create('sugar-path',      \GetOpt\Operand::OPTIONAL),
     ]
 );
 
 //add description to usage text 
 $getOpt->setHelp(
     new \GetOpt\Help(
-	['description' => 'Packages a local Sugar installation for upload and import to the SugarCRM Cloud environment.']
+    ['description' => "Packages a local Sugar installation for upload and import to the SugarCRM Cloud environment.\n\n"
+        . "<sugar-path> is required unless an existing package is passed to --upload"
+    ]
     )
 );
 
@@ -72,6 +74,21 @@ try {
 }
 
 $options = $getOpt->getOptions();
+
+//stash operand in $options for convenience
+$options['sugar-path'] = $getOpt->getOperand('sugar-path');
+
+
+if (empty($options['sugar-path']) && !isset($options['upload'])) {
+    echo $usage;
+    exit(1);
+}
+
+if (!empty($options['sugar-path']) && (isset($options['upload']) && 1 !== $options['upload'])) {
+    echo $usage;
+    fwrite(STDERR, "Error: <sugar-path> and --upload <package> are mutually exclusive\n");
+	exit(1);
+}
 
 if ($options['help']) {
     echo $usage;
@@ -118,7 +135,7 @@ if (!empty($options['upload'])) {
 
     try {
         $packager = new $namespace(
-            $options['source'],
+            $options['sugar-path'],
             $options['destination'],
             $options['name']
         );
