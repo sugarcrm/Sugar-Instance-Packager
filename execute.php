@@ -90,12 +90,12 @@ if (!empty($options['sugar-path']) && (isset($options['upload']) && 1 !== $optio
 	exit(1);
 }
 
-if ($options['help']) {
+if (isset($options['help'])) {
     echo $usage;
     exit();
 }
 
-if ($options['version']) {
+if (isset($options['version'])) {
     echo $versionText;
     exit();
 }
