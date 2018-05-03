@@ -132,6 +132,13 @@ if (isset($options['upload']) && 1 !== $options['upload']) {
         fwrite(STDERR, "Error: could not read package ${package}; make sure it exists and its permissions allow reading\n");
         exit(1);
     }
+    $manifest = file_get_contents("zip://{$package}#manifest.json");
+    if ($manifest) {
+        $manifest = json_decode($manifest, true);
+    } else {
+        fwrite(STDERR, "Error: could not read manifest from {$package}; please makes sure it is a valid package\n");
+        exit(1);
+    }
 } else {
     $namespace = '\\Sugarcrm\\Support\\Helpers\\Packager\\Instance\\' . $options['type'] . '\\Packager';
 
