@@ -176,6 +176,7 @@ if (isset($options['upload'])) {
         exit(1);
     }
 
+    $manifest['files'] = implode(", ", $manifest['files']);
     $result = false;
     try{
         echo "Connecting to S3 bucket...\n";
@@ -190,6 +191,7 @@ if (isset($options['upload'])) {
             'Bucket'     => $s3buckets[$options['s3bucket']]['bucket'],
             'Key'        => $options['name'],
             'SourceFile' => $package,
+            'Metadata'   => $manifest,
         ]);
     } catch (S3Exception $e) {
         frwite(STDERR, sprintf("%s \n", $e->getMessage()));
