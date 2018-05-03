@@ -38,8 +38,8 @@ $getOpt = new \GetOpt\GetOpt(
         ->setArgumentName('key:secret'),
 
     \GetOpt\Option::create(null, 's3bucket',    \GetOpt\GetOpt::REQUIRED_ARGUMENT)
-        ->setDescription('S3 Bucket to upload package to')
-        ->setArgumentName('s3bucket')
+        ->setDescription('S3 Bucket to upload package to. Valid buckets are "us", "eu", or "au". Defaults to "us".')
+        ->setArgument(new \GetOpt\Argument('us', null, 's3bucket'))
     ],
     [\GetOpt\GetOpt::SETTING_STRICT_OPERANDS => true]
 );
@@ -151,6 +151,17 @@ if (!empty($options['upload'])) {
 //no point in trying to upload if we weren't asked to
 if (isset($options['upload'])) {
 
+    $s3buckets = array(
+        "us" => array( 'bucket' => "sugarcrm-ms-imports-usw2-dev", 'region' => 'us-west-2'),
+        "eu" => array( 'bucket' => "sugarcrm-ms-imports-usw2-dev", 'region' => 'us-west-2'),
+        "au" => array( 'bucket' => "sugarcrm-ms-imports-usw2-dev", 'region' => 'us-west-2')
+    );
+
+    if (!array_key_exists($options['s3bucket'], $s3buckets)) {
+        fwrite(STDERR, "Error: '{$options['s3bucket']}' is not a valid S3 bucket, could not upload package.\n");
+        exit(1);
+    }
+
     if (empty($credentials)) {
         print "no AWS credentials found, could not upload package\n";
         exit(1);
@@ -161,13 +172,13 @@ if (isset($options['upload'])) {
         echo "Connecting to S3 bucket...\n";
         $s3Client = new Aws\S3\S3Client([
             'version' => 'latest',
-            'region'  => 'us-east-1',
+            'region'  => $s3buckets[$options['s3bucket']]['region'],
             'credentials' => $credentials
         ]);
 
         echo "Uploading package...\n";
         $result = $s3Client->putObject([
-            'Bucket'     => $options['s3bucket'],
+            'Bucket'     => $s3buckets[$options['s3bucket']]['bucket'],
             'Key'        => $options['name'],
             'SourceFile' => $package,
         ]);
