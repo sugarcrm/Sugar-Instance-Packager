@@ -127,8 +127,9 @@ if (empty($options['name'])) {
 //otherwise, create a new package
 if (!empty($options['upload'])) {
     $package = $options['upload'];
-    if (!is_file($package)) {
-        print "Could not read package ${package}; make sure it exists and its permissions allow reading\n";
+    if (!is_readable($package)) {
+        fwrite(STDERR, "Error: could not read package ${package}; make sure it exists and its permissions allow reading\n");
+        exit(1);
     }
 } else {
     $namespace = '\\Sugarcrm\\Support\\Helpers\\Packager\\Instance\\' . $options['type'] . '\\Packager';
@@ -142,7 +143,7 @@ if (!empty($options['upload'])) {
 
         $manifest = $packager->pack();
     } catch (Exception $e) {
-        printf("Error: %s \n", $e->getMessage());
+        fwrite(STDERR, sprintf("Error: %s \n", $e->getMessage()));
         exit($e->getCode());
     }
     $package = "${options['destination']}/${options['name']}";
@@ -163,7 +164,7 @@ if (isset($options['upload'])) {
     }
 
     if (empty($credentials)) {
-        print "no AWS credentials found, could not upload package\n";
+        fwrite(STDERR, "Error: no AWS credentials found, could not upload package.\n");
         exit(1);
     }
 
@@ -183,7 +184,8 @@ if (isset($options['upload'])) {
             'SourceFile' => $package,
         ]);
     } catch (S3Exception $e) {
-        echo $e->getMessage() . "\n";
+        frwite(STDERR, sprintf("%s \n", $e->getMessage()));
+        exit($e->getCode());
     }
     if ($result) {
         printf( "Uploaded %s to S3 \n\tETag '%s' \n\texpires on %s\n", "{$options['destination']}/{$options['name']}", $result['ETag'], $result['Expiration']);
