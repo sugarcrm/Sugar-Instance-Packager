@@ -123,9 +123,9 @@ if (empty($options['name'])) {
 
 
 //allow uploading to be completed separate from packing
-//if upload isn't empty, then that's the package we're trying to upload
-//otherwise, create a new package
-if (!empty($options['upload'])) {
+//when upload === 1, that means it was set but no arg was passed, so we need to create a new package
+//otherwise, the value of upload is the package to be uploaded
+if (isset($options['upload']) && 1 !== $options['upload']) {
     $package = $options['upload'];
     $options['name'] = basename($options['upload']);
     if (!is_readable($package)) {
