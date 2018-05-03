@@ -127,6 +127,7 @@ if (empty($options['name'])) {
 //otherwise, create a new package
 if (!empty($options['upload'])) {
     $package = $options['upload'];
+    $options['name'] = basename($options['upload']);
     if (!is_readable($package)) {
         fwrite(STDERR, "Error: could not read package ${package}; make sure it exists and its permissions allow reading\n");
         exit(1);
