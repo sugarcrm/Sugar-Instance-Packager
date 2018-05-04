@@ -3,11 +3,11 @@
 namespace Sugarcrm\Support\Helpers\Packager\Tests;
 
 /**
- * Class OnDemandTest
+ * Class CloudTest
  * @package Sugarcrm\Support\Helpers\Packager\Tests
  * @group support
  */
-class OnDemandTest extends \PHPUnit_Framework_TestCase {
+class CloudTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * Initialize objects
@@ -34,23 +34,25 @@ class OnDemandTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Tests OnDemand backups
+     * Validates Cloud backups
      */
     public function testBackup(){
         $time = time();
 
-        $namespace = '\\Sugarcrm\\Support\\Helpers\\Packager\\Instance\\OnDemand\\Packager';
+        $namespace = '\\Sugarcrm\\Support\\Helpers\\Packager\\Instance\\Cloud\\Packager';
 
         $packager = new $namespace(
             'sugar',
             'backups',
-            $time
+            "{$time}.zip"
         );
+
+        $package = "backups/{$time}.zip";
 
         $packager->pack();
 
-        $this->assertTrue(file_exists("backups/{$time}-files.zip"));
-        $this->assertTrue(file_exists("backups/{$time}-db.zip"));
-        $this->assertTrue(file_exists("backups/{$time}-triggers.zip"));
+        $this->assertTrue(file_exists($package));
+        $this->assertTrue(0 < filesize($package));
+        $this->assertTrue('application/zip' == mime_content_type($package));
     }
 }
