@@ -50,12 +50,12 @@ abstract class Packager
         //verify path
         if (!is_dir(realpath($sugarPath))) {
             throw new \Exception("'{$sugarPath}' is not a directory", 1);
-	}
-	$sugarPath = realpath($sugarPath);
+        }
+        $sugarPath = realpath($sugarPath);
 
-	if (!is_file("{$sugarPath}/sugar_version.json")) {
-	    throw new \Exception("{$sugarPath} does not seem to contain a valid Sugar installation; can't read sugar_version.json", 1);
-	}
+        if (!is_file("{$sugarPath}/sugar_version.json")) {
+            throw new \Exception("{$sugarPath} does not seem to contain a valid Sugar installation; can't read sugar_version.json", 1);
+        }
 
         //verify archive destination
         $this->sugarPath = $sugarPath;
@@ -64,11 +64,11 @@ abstract class Packager
             throw new \Exception("'{$archivePath}' is not a directory", 1);
         }
         $this->archivePath = realpath($archivePath);
-	$this->archiveName = $archiveName;
+        $this->archiveName = $archiveName;
         $this->archive     = "${archivePath}/{$archiveName}";
 
         if (is_file($this->archive)) {
-		throw new \Exception("'{$this->archive}' already exists", 1);
+            throw new \Exception("'{$this->archive}' already exists", 1);
         }
 
         $this->loadConfig();
@@ -154,17 +154,17 @@ abstract class Packager
         $this->setEnvironment();
 
         /* order is important; DB has to be first because ZipStreamer can't to append to existing zip files */
-	$manifest = array_merge_recursive(
+        $manifest = array_merge_recursive(
             $this->packDatabase(),
             $this->packFiles()
         );
 
-	/* having the manifest inside the package costs us nothing and is a handy backup in a number of scenarios */
+        /* having the manifest inside the package costs us nothing and is a handy backup in a number of scenarios */
         $zip = new \ZipArchive();
         $zip->open($this->archive);
-	$zip->addFromString("manifest.json", json_encode($manifest));
-	$zip->close();
-	
+        $zip->addFromString("manifest.json", json_encode($manifest));
+        $zip->close();
+
         return $manifest;
     }
 

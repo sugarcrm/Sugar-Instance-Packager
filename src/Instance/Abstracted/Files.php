@@ -17,10 +17,10 @@ abstract class Files
     function __construct($sugarPath, $archive)
     {
         $this->sugarPath = $sugarPath;
-        $this->archive = $archive;
+        $this->archive   = $archive;
 
         $this->manifest = json_decode(file_get_contents("{$sugarPath}/sugar_version.json"), true);
-	$this->manifest['files'] = array("filesystem");
+        $this->manifest['files'] = array("filesystem");
 
         return $this;
     }
@@ -61,7 +61,7 @@ abstract class Files
             }
         }
 
-	$zip->close();
+        $zip->close();
 
         $this->manifest['files_uncompressed_size'] = $bytestotal;
         return $this->manifest;

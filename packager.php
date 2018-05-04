@@ -87,7 +87,7 @@ if (empty($options['sugar-path']) && !isset($options['upload'])) {
 if (!empty($options['sugar-path']) && (isset($options['upload']) && 1 !== $options['upload'])) {
     echo $usage;
     fwrite(STDERR, "Error: <sugar-path> and --upload <package> are mutually exclusive\n");
-	exit(1);
+    exit(1);
 }
 
 if (isset($options['help'])) {

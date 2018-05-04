@@ -157,10 +157,9 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
             $stdout = popen($package['mysqldump_cmd'], "r");
             $zip->add($package['filename'], $stdout, -1);
             $this->manifest['files'][] = $package['filename'];
-
         }
 
-	$zip->flush();
+        $zip->flush();
 
         if (!file_exists($this->archive)) {
             throw new \Exception("could not create package {$package['path']}!", 1);
@@ -185,7 +184,7 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
     {
         //set @@global.show_compatibility_56=ON;
         // --set-gtid-purged=OFF
-	$command = "mysqldump";
+        $command = "mysqldump";
         $devnull  = "/dev/null";
         /* are we on a windows server? */
         if (stristr(php_uname('s'), "windows")) { 
