@@ -6,23 +6,21 @@ abstract class Database
 {
     protected $dbConfig = array();
     protected $dbConfigOptions = array();
-    protected $archivePath = '';
-    protected $archiveName = '';
+    protected $archive;
 
     protected $connection = null;
     protected $log = array();
+    protected $manifest = array();
 
     /**
      * Database constructor.
-     * @param $archivePath
-     * @param $archiveName
+     * @param $archive
      * @param $dbConfig
      * @param $dbConfigOptions
      */
-    function __construct($archivePath, $archiveName, $dbConfig, $dbConfigOptions)
+    function __construct($archive, $dbConfig, $dbConfigOptions)
     {
-        $this->archivePath = $archivePath;
-        $this->archiveName = $archiveName;
+        $this->archive = $archive;
         $this->dbConfig = $dbConfig;
         $this->dbConfigOptions = $dbConfigOptions;
 
