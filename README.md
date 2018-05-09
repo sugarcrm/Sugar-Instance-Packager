@@ -18,7 +18,7 @@ cd Support-Helpers-Packager
 composer install --no-dev
 ```
 
-## Packageing a Sugar instance
+## Packaging a Sugar instance
 
 To create a package from the command line, you can use `packager.php`. Usage is as follows
 ```
@@ -31,12 +31,12 @@ To create a package from the command line, you can use `packager.php`. Usage is 
 | ------------- | ------------- |
 | -h, --help | Print this help message and exit. |
 | -v, --version | Print version information and exit. |
-| --name [<package name>] | File name of the package to be created. Defaults to "<AWS Access Key>.<UNIX timestamp>.zip", or "<UNIX timestamp>.zip" if no AWS Access Key is found. |
-| --destination [<directory>] |  Directory to write the package to. Defaults to the current directory. |
-| --type [<package type>] | Type of package to create. Valid types are "MySQL" or "Cloud". Defaults to "Cloud". |
-| --upload [<path to package>] | Upload the package being created OR specify an existing package to be uploaded. |
-| --aws-creds <key:secret> | AWS Access Key/Secret pair, separated by ":". If no credentials are provided, attempts to load credentials from environment variables, then "~/.aws/credentials", then "~/.aws/config". |
-| --s3bucket <s3bucket> | S3 Bucket to upload package to. Valid buckets are "us", "eu", or "au". Defaults to "us". |
+| --name [\<package name>] | File name of the package to be created. Defaults to "\<AWS Access Key>.\<UNIX timestamp>.zip", or "\<UNIX timestamp>.zip" if no AWS Access Key is found. |
+| --destination [\<directory>] |  Directory to write the package to. Defaults to the current directory. |
+| --type [\<package type>] | Type of package to create. Valid types are "MySQL" or "Cloud". Defaults to "Cloud". |
+| --upload [\<path to package>] | Upload the package being created OR specify an existing package to be uploaded. |
+| --aws-creds \<key:secret> | AWS Access Key/Secret pair, separated by ":". If no credentials are provided, attempts to load credentials from environment variables, then "\~/.aws/credentials", then "\~/.aws/config". |
+| --s3bucket \<s3bucket> | S3 Bucket to upload package to. Valid buckets are "us", "eu", or "au". Defaults to "us". |
 
 ## Testing
 
