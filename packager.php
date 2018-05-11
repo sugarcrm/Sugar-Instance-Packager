@@ -106,12 +106,19 @@ if (isset($options['version'])) {
 if (!empty($options['aws-creds'])) {
     $options['aws-creds'] = explode(":", $options['aws-creds']);
     $provider = new \Aws\Credentials\Credentials($options['aws-creds'][0], $options['aws-creds'][1]);
+    $credentials = $provider->toArray();
 } else {
     $provider = \Aws\Credentials\CredentialProvider::defaultProvider();
-    $provider = $provider()->wait();
+    try {
+        $provider = $provider()->wait();
+        $credentials = $provider->toArray();
+    } catch (Exception $e) {
+        fwrite(STDERR, sprintf("%s \n", $e->getMessage()));
+        echo "Continuing without AWS credentials...\n";
+        $credentials = array();
+    }
 }
 
-$credentials = $provider->toArray();
 
 //set archive name
 if (empty($options['name'])) {
