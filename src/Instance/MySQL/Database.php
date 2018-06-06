@@ -12,9 +12,9 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
      * @param $dbConfig
      * @param $dbConfigOptions
      */
-    function __construct($archive, $dbConfig, $dbConfigOptions)
+    function __construct($archive, $dbConfig, $dbConfigOptions, $verbosity)
     {
-        parent::__construct($archive, $dbConfig, $dbConfigOptions);
+        parent::__construct($archive, $dbConfig, $dbConfigOptions, $verbosity);
 
         if (isset($this->dbConfigOptions['ssl']) && $this->dbConfigOptions['ssl'] == true) {
             if (isset($this->dbConfigOptions['ssl_options']['ssl_ca']) && $this->dbConfigOptions['ssl_options']['ssl_ca']) {
@@ -38,6 +38,7 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
 
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
+        $this->addLog('Connecting to database...', 3);
         $this->connection = new \mysqli();
 
         if (isset($this->dbConfigOptions['ssl']) && $this->dbConfigOptions['ssl'] == true && isset($this->dbConfigOptions['ssl_options']['ssl_ca']) && $this->dbConfigOptions['ssl_options']['ssl_ca']) {
@@ -86,6 +87,7 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
     {
         $this->connect();
 
+        $this->addLog('Getting list of triggers from database...', 3);
         $result = $this->connection->query("SHOW TRIGGERS IN " . $this->dbConfig['db_name']);
 
         if (!$result) {
@@ -111,6 +113,7 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
     {
         $this->connect();
 
+        $this->addLog('Getting list of views from database...', 3);
         $result = $this->connection->query("SHOW FULL TABLES IN " . $this->dbConfig['db_name'] . " WHERE TABLE_TYPE LIKE 'VIEW'");
 
         if (!$result) {
@@ -132,11 +135,11 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
      */
     function pack()
     {
-        $this->addLog('Packing database...');
+        $this->addLog('Packing database...', 1);
 
         $this->package = array(
             'db' => array(
-                'mysqldump_cmd' => $this->getDBCommand(" 2> %s"),
+                'mysqldump_cmd' => $this->getDBCommand(" 2>%s"),
                 'filename' => basename($this->archive, ".zip") . "-db.sql",
             )
         );
@@ -154,6 +157,7 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
         $output = new \ZipStreamer\Output\File($this->archive);
         $zip = new \ZipStreamer\ZipStreamer($output);
         foreach ($this->package as $pkg_name => $package) {
+            $this->addLog(sprintf('Running `%s`...', $package['mysqldump_cmd']), 4);
             $stdout = popen($package['mysqldump_cmd'], "r");
             $zip->add($package['filename'], $stdout, -1);
             $this->manifest['files'][] = $package['filename'];
@@ -191,6 +195,9 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
             $command .= ".exe";
             $devnull  = "nul";
         }
+
+        // only display mysqldump stderr if verbosity is dialed all the way up
+        if ( 5 == $this->verbosity ) { $devnull = "&2"; }
 
 
         $command .= " --max_allowed_packet=1024M -e -Q --opt";

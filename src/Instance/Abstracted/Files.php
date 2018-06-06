@@ -14,10 +14,11 @@ abstract class Files
      * @param $sugarPath - the directory to be zipped
      * @param $archive   - the absolute path (including filename) of the archive we're making
      */
-    function __construct($sugarPath, $archive)
+    function __construct($sugarPath, $archive, $verbosity)
     {
         $this->sugarPath = $sugarPath;
         $this->archive   = $archive;
+        $this->verbosity = $verbosity;
 
         $this->manifest = json_decode(file_get_contents("{$sugarPath}/sugar_version.json"), true);
         $this->manifest['files'] = array("filesystem");
@@ -30,7 +31,7 @@ abstract class Files
      */
     function pack()
     {
-        $this->addLog('Packing files...');
+        $this->addLog('Packing files...', 1);
 
         $bytestotal = 0;
         $zip = new \ZipArchive();
@@ -55,7 +56,6 @@ abstract class Files
             if ($fileinfo->isDir()) {
                 $zip->addEmptyDir($subPathName);
             } else {
-                //$this->addLog('Adding ' . $fileinfo->getPathname());
                 $zip->addFile($fileinfo->getPathname(), $subPathName);
                 $bytestotal += $fileinfo->getSize();
             }
@@ -71,13 +71,15 @@ abstract class Files
      * Captures an events message
      * @param $message
      */
-    function addLog($message)
+    function addLog($message, $loglevel)
     {
-        if (php_sapi_name() === 'cli') {
-            echo $message . "\n";
-        }
+        if ( $this->verbosity >= $loglevel ) {
+            if (php_sapi_name() === 'cli') {
+                echo $message . "\n";
+            }
 
-        $this->log[] = $message;
+            $this->log[] = $message;
+        }
     }
 
     /**

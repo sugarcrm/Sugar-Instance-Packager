@@ -19,13 +19,15 @@ abstract class Packager
      * Captures an events message
      * @param $message
      */
-    function addLog($message)
+    function addLog($message, $loglevel)
     {
-        if (php_sapi_name() === 'cli') {
-            echo $message . "\n";
-        }
+        if ( $this->verbosity >= $loglevel ) {
+            if (php_sapi_name() === 'cli') {
+                echo $message . "\n";
+            }
 
-        $this->log[] = $message;
+            $this->log[] = $message;
+        }
     }
 
     /**
@@ -45,8 +47,10 @@ abstract class Packager
      * @param $archivePath
      * @param string $archiveName
      */
-    public function __construct($sugarPath, $archivePath, $archiveName = '')
+    public function __construct($sugarPath, $archivePath, $archiveName = '', $verbosity)
     {
+        $this->verbosity = $verbosity;
+
         //verify path
         if (!is_dir(realpath($sugarPath))) {
             throw new \Exception("'{$sugarPath}' is not a directory", 1);
@@ -92,6 +96,7 @@ abstract class Packager
      */
     public function loadConfig()
     {
+        $this->addLog("Loading Sugar config..." , 3);
         $config = $this->sugarPath . '/config.php';
         $config_override = $this->sugarPath . '/config_override.php';
 
@@ -120,6 +125,7 @@ abstract class Packager
      */
     public function verifyConfig()
     {
+        $this->addLog("Verifying DB config...", 3);
         if (empty($this->config) || !is_array($this->config)) {
             throw new \Exception("Configuration is empty.");
         }
@@ -162,8 +168,11 @@ abstract class Packager
         /* having the manifest inside the package costs us nothing and is a handy backup in a number of scenarios */
         $zip = new \ZipArchive();
         $zip->open($this->archive);
+        $this->addLog("Writing manifest to package...", 3);
         $zip->addFromString("manifest.json", json_encode($manifest));
         $zip->close();
+
+        $this->addLog("Packed instance '{$this->sugarPath}' to package '{$this->archive}'", 3);
 
         return $manifest;
     }

@@ -18,11 +18,12 @@ abstract class Database
      * @param $dbConfig
      * @param $dbConfigOptions
      */
-    function __construct($archive, $dbConfig, $dbConfigOptions)
+    function __construct($archive, $dbConfig, $dbConfigOptions, $verbosity)
     {
         $this->archive = $archive;
         $this->dbConfig = $dbConfig;
         $this->dbConfigOptions = $dbConfigOptions;
+        $this->verbosity = $verbosity;
 
         if (empty($this->dbConfig['db_port'])) { // '' case
             $this->dbConfig['db_port'] = null;
@@ -66,13 +67,15 @@ abstract class Database
      * Captures an events message
      * @param $message
      */
-    function addLog($message)
+    function addLog($message, $loglevel)
     {
-        if (php_sapi_name() === 'cli') {
-            echo $message . "\n";
-        }
+        if ( $this->verbosity >= $loglevel ) {
+            if (php_sapi_name() === 'cli') {
+                echo $message . "\n";
+            }
 
-        $this->log[] = $message;
+            $this->log[] = $message;
+        }
     }
 
     /**

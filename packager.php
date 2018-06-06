@@ -2,7 +2,12 @@
 <?php
 require __DIR__ . '/vendor/autoload.php';
 
-
+function addLog($message, $loglevel) {
+    global $options;
+    if ( $options['verbosity'] >= $loglevel ) { 
+        echo $message;
+    }
+}
 
 
 define('APPNAME', \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Packager::APPNAME );
@@ -14,8 +19,12 @@ $getOpt = new \GetOpt\GetOpt(
     \GetOpt\Option::create('h',  'help',        \GetOpt\GetOpt::NO_ARGUMENT)
         ->setDescription('Print this help message and exit.'),
 
-    \GetOpt\Option::create('v',  'version',     \GetOpt\GetOpt::NO_ARGUMENT)
+    \GetOpt\Option::create('V',  'version',     \GetOpt\GetOpt::NO_ARGUMENT)
         ->setDescription('Print version information and exit.'),
+
+    \GetOpt\Option::create('v',  'verbosity',     \GetOpt\GetOpt::OPTIONAL_ARGUMENT)
+        ->setDescription('How much information to output. Valid values are 0-5. Defaults to 1. Use 0 to suppress all output except errors.')
+        ->setArgument(new \GetOpt\Argument(1, null, 'verbosity')),
 
     \GetOpt\Option::create(null, 'name',        \GetOpt\GetOpt::OPTIONAL_ARGUMENT)
         ->setDescription('File name of the package to be created. Defaults to "<AWS Access Key>.<UNIX timestamp>.zip", or "<UNIX timestamp>.zip" if no AWS Access Key is found.')
@@ -114,7 +123,7 @@ if (!empty($options['aws-creds'])) {
         $credentials = $provider->toArray();
     } catch (Exception $e) {
         fwrite(STDERR, sprintf("%s \n", $e->getMessage()));
-        echo "Continuing without AWS credentials...\n";
+        addLog("Continuing without AWS credentials...\n", 1);
         $credentials = array();
     }
 }
@@ -128,13 +137,13 @@ if (empty($options['name'])) {
     }
 }
 
-
 //allow uploading to be completed separate from packing
 //when upload === 1, that means it was set but no arg was passed, so we need to create a new package
 //otherwise, the value of upload is the package to be uploaded
 if (isset($options['upload']) && 1 !== $options['upload']) {
     $package = $options['upload'];
     $options['name'] = basename($options['upload']);
+    addLog("Reading manifest from package...\n", 1);
     if (!is_readable($package)) {
         fwrite(STDERR, "Error: could not read package ${package}; make sure it exists and its permissions allow reading\n");
         exit(1);
@@ -153,7 +162,8 @@ if (isset($options['upload']) && 1 !== $options['upload']) {
         $packager = new $namespace(
             $options['sugar-path'],
             $options['destination'],
-            $options['name']
+            $options['name'],
+            $options['verbosity']
         );
 
         $manifest = $packager->pack();
@@ -186,14 +196,14 @@ if (isset($options['upload'])) {
     $manifest['files'] = implode(", ", $manifest['files']);
     $result = false;
     try{
-        echo "Connecting to S3 bucket...\n";
+        addLog("Connecting to S3 bucket...\n", 1);
         $s3Client = new Aws\S3\S3Client([
             'version' => 'latest',
             'region'  => $s3buckets[$options['s3bucket']]['region'],
             'credentials' => $credentials
         ]);
 
-        echo "Uploading package...\n";
+        addLog("Uploading package...\n", 1);
         $result = $s3Client->putObject([
             'Bucket'     => $s3buckets[$options['s3bucket']]['bucket'],
             'Key'        => $options['name'],
@@ -205,6 +215,6 @@ if (isset($options['upload'])) {
         exit($e->getCode());
     }
     if ($result) {
-        printf( "Uploaded %s to S3 \n\tETag '%s' \n\texpires on %s\n", "{$options['destination']}/{$options['name']}", $result['ETag'], $result['Expiration']);
+        addLog(sprintf("Uploaded '%s' to S3 bucket '%s' \n\tETag %s \n\texpires on %s\n", "{$options['destination']}/{$options['name']}", $s3buckets[$options['s3bucket']]['bucket'], $result['ETag'], $result['Expiration']), 1);
     }
 }

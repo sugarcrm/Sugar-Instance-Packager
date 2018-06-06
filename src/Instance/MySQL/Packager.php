@@ -10,9 +10,9 @@ class Packager extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Pa
      * @param $archivePath
      * @param string $archiveName
      */
-    public function __construct($sugarPath, $archivePath, $archiveName = '')
+    public function __construct($sugarPath, $archivePath, $archiveName = '', $verbosity)
     {
-        parent::__construct($sugarPath, $archivePath, $archiveName);
+        parent::__construct($sugarPath, $archivePath, $archiveName, $verbosity);
 
     }
 
@@ -48,7 +48,7 @@ class Packager extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Pa
      */
     public function packFiles()
     {
-        $filePacker = new Files($this->sugarPath, $this->archive);
+        $filePacker = new Files($this->sugarPath, $this->archive, $this->verbosity);
         return $filePacker->pack();
     }
 
@@ -57,7 +57,7 @@ class Packager extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Pa
      */
     public function packDatabase()
     {
-        $db = new Database($this->archive, $this->config['dbconfig'], $this->config['dbconfigoption']);
+        $db = new Database($this->archive, $this->config['dbconfig'], $this->config['dbconfigoption'], $this->verbosity);
         return $db->pack();
     }
 }
