@@ -210,8 +210,8 @@ if (isset($options['upload'])) {
             'SourceFile' => $package,
             'Metadata'   => $manifest,
         ]);
-    } catch (S3Exception $e) {
-        frwite(STDERR, sprintf("%s \n", $e->getMessage()));
+    } catch (Exception $e) {
+        fwrite(STDERR, sprintf("%s \n", $e->getMessage()));
         exit($e->getCode());
     }
     if ($result) {
