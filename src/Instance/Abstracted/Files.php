@@ -4,28 +4,24 @@ namespace Sugarcrm\Support\Helpers\Packager\Instance\Abstracted;
 
 abstract class Files
 {
-    protected $source;
+    protected $sugarPath;
     protected $destination;
     protected $log = array();
+    protected $manifest = array();
 
     /**
      * Files constructor.
-     * @param $sourceFolder - the directory to zip
-     * @param $destinationFolder - the zip file to archive to
-     * @param $archiveName - the name of the archive
+     * @param $sugarPath - the directory to be zipped
+     * @param $archive   - the absolute path (including filename) of the archive we're making
      */
-    function __construct($sourceFolder, $destinationFolder, $archiveName)
+    function __construct($sugarPath, $archive, $verbosity)
     {
-        if (!is_dir($sourceFolder)) {
-            throw new \Exception("'{$sourceFolder}' is not a valid directory");
-        }
+        $this->sugarPath = $sugarPath;
+        $this->archive   = $archive;
+        $this->verbosity = $verbosity;
 
-        if (!is_dir($destinationFolder)) {
-            throw new \Exception("'{$destinationFolder}' is not a valid directory");
-        }
-
-        $this->source = $sourceFolder;
-        $this->destination = $destinationFolder . "/{$archiveName}-files.zip";
+        $this->manifest = json_decode(file_get_contents("{$sugarPath}/sugar_version.json"), true);
+        $this->manifest['files'] = array("filesystem");
 
         return $this;
     }
@@ -35,51 +31,55 @@ abstract class Files
      */
     function pack()
     {
-        $this->addLog('Packing files...');
+        $this->addLog('Packing files...', 1);
 
         $bytestotal = 0;
         $zip = new \ZipArchive();
-        $zip->open($this->destination, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+        $result = $zip->open($this->archive);
+        if (TRUE !== $result) {
+            throw new \Exception("Could not open {$this->archive}: {$result}", 1);
+        }
 
-        $it = new \RecursiveIteratorIterator(
+        $archiveName = basename($this->archive, ".zip");
+        $zip->addEmptyDir($archiveName);
+
+        $iterator = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator(
-                $this->source,
+                $this->sugarPath,
                 \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS
             ),
             \RecursiveIteratorIterator::SELF_FIRST
         );
 
-        foreach ($it as $fileinfo) {
-            $subPathName = $it->getSubPathname();
+        foreach ($iterator as $fileinfo) {
+            $subPathName = sprintf("%s/%s", $archiveName, $iterator->getSubPathname());
             if ($fileinfo->isDir()) {
                 $zip->addEmptyDir($subPathName);
             } else {
-                //$this->addLog('Adding ' . $fileinfo->getPathname());
                 $zip->addFile($fileinfo->getPathname(), $subPathName);
                 $bytestotal += $fileinfo->getSize();
             }
         }
 
-        $zip->addFromString(
-            "manifest.json",
-            json_encode(array('uncompressed_size' => $bytestotal))
-        );
-
-        $this->addLog('Closing zip...');
         $zip->close();
+
+        $this->manifest['files_uncompressed_size'] = $bytestotal;
+        return $this->manifest;
     }
 
     /**
      * Captures an events message
      * @param $message
      */
-    function addLog($message)
+    function addLog($message, $loglevel)
     {
-        if (php_sapi_name() === 'cli') {
-            echo $message . "\n";
-        }
+        if ( $this->verbosity >= $loglevel ) {
+            if (php_sapi_name() === 'cli') {
+                echo $message . "\n";
+            }
 
-        $this->log[] = $message;
+            $this->log[] = $message;
+        }
     }
 
     /**

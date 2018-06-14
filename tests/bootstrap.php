@@ -1,26 +1,7 @@
 <?php
 
-namespace Sugarcrm\Support\Helpers\Packager\Tests\Helpers {
-    // all files in /src directory
-    $src = __DIR__ . '/../src/';
+require_once __DIR__.'/../vendor/autoload.php';
 
-    function require_folder($dir)
-    {
-        $scanned = array_diff(scandir($dir), array('..', '.'));
-
-        foreach ($scanned as $filename) {
-            $path = $dir . $filename;
-
-            if (is_file($path)) {
-                require_once $path;
-            } else {
-              $p = "{$dir}{$filename}/";
-              if (is_dir($p)) {
-                  require_folder($p);
-              }
-            }
-        }
-    }
-
-    require_folder($src);
-}
+$classLoader = new \Composer\Autoload\ClassLoader();
+$classLoader->addPsr4("Sugarcrm\\Support\\Helpers\\Packager\\Tests\\Helpers", __DIR__, true);
+$classLoader->register();

@@ -44,12 +44,15 @@ class MySQLTest extends \PHPUnit_Framework_TestCase {
         $packager = new $namespace(
             'sugar',
             'backups',
-            $time
+            "{$time}.zip"
         );
+
+        $package = "backups/{$time}.zip";
 
         $packager->pack();
 
-        $this->assertTrue(file_exists("backups/{$time}-files.zip"));
-        $this->assertTrue(file_exists("backups/{$time}-db.zip"));
+        $this->assertTrue(file_exists($package));
+        $this->assertTrue(0 < filesize($package));
+        $this->assertTrue('application/zip' == mime_content_type($package));
     }
 }

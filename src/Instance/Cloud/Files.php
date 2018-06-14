@@ -1,8 +1,8 @@
 <?php
 
-namespace Sugarcrm\Support\Helpers\Packager\Instance\MySQL;
+namespace Sugarcrm\Support\Helpers\Packager\Instance\Cloud;
 
-class Files extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Files
+class Files extends \Sugarcrm\Support\Helpers\Packager\Instance\MySQL\Files
 {
     public function __construct($sugarPath, $archive, $verbosity)
     {
