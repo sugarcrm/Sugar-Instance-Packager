@@ -1,9 +1,9 @@
 {
-    "name": "sugarcrm/Support-Helpers-Packager",
+    "name": "sugarcrm/Sugar-Instance-Packager",
     "description": "Helpers for packaging Sugar",
     "type": "library",
     "license": "proprietary",
-    "homepage": "https://github.com/sugarcrm/Support-Helpers-Packager",
+    "homepage": "https://github.com/sugarcrm/Sugar-Instance-Packager",
     "support": {
         "wiki": "http://support.sugarcrm.com",
         "forum": "https://community.sugarcrm.com/sugarcrm",

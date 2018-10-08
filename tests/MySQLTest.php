@@ -44,7 +44,8 @@ class MySQLTest extends \PHPUnit_Framework_TestCase {
         $packager = new $namespace(
             'sugar',
             'backups',
-            "{$time}.zip"
+            "{$time}.zip",
+            3
         );
 
         $package = "backups/{$time}.zip";

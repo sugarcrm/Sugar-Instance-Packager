@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "Support-Helpers-Packager",
+  "name": "Sugar-Instance-Packager",
   "description": "Helpers for archiving an instance",
   "version": "1.0.0",
   "directories": {
@@ -15,10 +15,10 @@
   },
   "repository": {
     "type": "vcs",
-    "url": "https://github.com/sugarcrm/Support-Helpers-Packager.git"
+    "url": "https://github.com/sugarcrm/Sugar-Instance-Packager.git"
   },
   "bugs": {
-    "url": "https://github.com/sugarcrm/Support-Helpers-Packager/issues"
+    "url": "https://github.com/sugarcrm/Sugar-Instance-Packager/issues"
   },
-  "homepage": "https://github.com/sugarcrm/Support-Helpers-Packager"
+  "homepage": "https://github.com/sugarcrm/Sugar-Instance-Packager"
 }
