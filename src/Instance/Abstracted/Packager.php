@@ -12,7 +12,7 @@ abstract class Packager
     protected $log = array();
 
 
-    const APPNAME = 'Support-Helpers-Packager';
+    const APPNAME = 'Sugar-Instance-Packager';
     const VERSION = '1.0.0';
 
     /**
