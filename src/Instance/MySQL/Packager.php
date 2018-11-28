@@ -32,12 +32,12 @@ class Packager extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Pa
             throw new \Exception("config dbconfig.db_type is not mysql.", 1);
         }
 
-        $mysqlTest = shell_exec("mysql 2>&1");
+        $mysqlTest = shell_exec("mysql --help 2>&1");
         if (strpos($mysqlTest, 'command not found') !== false) {
             throw new \Exception("mysql not found.", 1);
         }
 
-        $mysqldumpTest = shell_exec("mysqldump 2>&1");
+        $mysqldumpTest = shell_exec("mysqldump --help 2>&1");
         if (strpos($mysqldumpTest, 'command not found') !== false) {
             throw new \Exception("mysqldump not found.", 1);
         }
