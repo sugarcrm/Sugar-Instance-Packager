@@ -1,5 +1,5 @@
 {
-    "name": "sugarcrm/Sugar-Instance-Packager",
+    "name": "sugarcrm/sugar-instance-packager",
     "description": "Helpers for packaging Sugar",
     "type": "library",
     "license": "proprietary",
