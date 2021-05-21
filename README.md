@@ -1,6 +1,5 @@
 # Helpers for packaging Sugar applications.
 
-[![Build Status](https://travis-ci.com/sugarcrm/Sugar-Instance-Packager.svg?token=ApQ7hyuyE1rftpStfgbN&branch=master)](https://travis-ci.com/sugarcrm/Sugar-Instance-Packager)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.4.2-8892BF.svg?style=flat-square)](https://php.net/)
 
 This repo provides a tool and classes for packaging Sugar instances. We may extend these in the future with helpers for packaging Sugar modules, language packs, and themes.
