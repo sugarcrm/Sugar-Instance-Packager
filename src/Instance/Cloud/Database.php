@@ -43,6 +43,12 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\MySQL\Databas
             $views = '';
         }
 
+        /**
+         * the triggers, views, and stored procedures are currently not allowed in Cloud,
+         * and are only backed-up, not imported. The filename is meant to reflect this,
+         * and to help prevent the import process from incorrectly interpreting the file
+         * as a database dump that should be imported
+         */
         $this->package = array(
             'db' => array(
                 'mysqldump_cmd' => $this->getDBCommand($skip_views . " 2>%s"),
@@ -50,7 +56,7 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\MySQL\Databas
             ),
             'triggers' => array(
                 'mysqldump_cmd' => $this->getDBCommand($trigger_options . " " . $views . " 2>%s | sed -e 's/DEFINER[ ]*=[ ]*[^*]*\*/\*/'"),
-                'filename' => basename($this->archive, ".zip") . "-triggers.sql",
+                'filename' => basename($this->archive, ".zip") . "-triggers.sql.backup",
             )
         );
 
