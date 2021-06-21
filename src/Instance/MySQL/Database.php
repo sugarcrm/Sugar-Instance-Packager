@@ -191,9 +191,13 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
         $command = "mysqldump";
         $devnull  = "/dev/null";
         /* are we on a windows server? */
-        if (stristr(php_uname('s'), "windows")) { 
+        if (PHP_OS == 'WINNT') { 
             $command .= ".exe";
             $devnull  = "nul";
+        }
+
+        if (!$this->command_exists($command)) {
+            throw new \Exception("could not find {$command}!", 1);
         }
 
         // only display mysqldump stderr if verbosity is dialed all the way up
