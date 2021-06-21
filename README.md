@@ -17,6 +17,8 @@ cd Sugar-Instance-Packager
 composer install --no-dev
 ```
 
+If composer is not already installed, you can install it by following the instructions here: https://getcomposer.org/download/
+
 ## Packaging a Sugar instance
 
 To create a package from the command line, you can use `packager.php`. Usage is as follows
