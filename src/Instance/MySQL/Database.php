@@ -204,7 +204,7 @@ class Database extends \Sugarcrm\Support\Helpers\Packager\Instance\Abstracted\Da
         if ( 5 == $this->verbosity ) { $devnull = "&2"; }
 
 
-        $command .= " --max_allowed_packet=2048M --events --quote-names --opt --default-character-set=utf8mb4 ";
+        $command .= " --max_allowed_packet=2048M --events --quote-names --opt --default-character-set=utf8mb4 --no-tablespaces";
 
         if (isset($this->dbConfigOptions['ssl']) && $this->dbConfigOptions['ssl'] == true && isset($this->dbConfigOptions['ssl_options']['ssl_ca']) && $this->dbConfigOptions['ssl_options']['ssl_ca']) {
             $command .= " --ssl-mode=REQUIRED";
